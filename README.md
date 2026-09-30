@@ -1,1 +1,1 @@
-# ProgectoGym
+# Proyecto Gym
