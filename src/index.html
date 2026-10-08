@@ -1,13 +1,43 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>GymApp</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="icongym.png" />
-  </head>
-  <body>
-    <app-root></app-root>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <title>Ultra Fitness</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="icongym.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../src/styles.css">
+</head>
+
+<body>
+  <app-root>
+    <nav class="nav" role="navigation" aria-label="Main navigation">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo" aria-label="Ultra Fitness">
+          <span class="nav-logo-mark">
+            <img src="../public/uflogo.png" alt="Logo" width="32" height="32">
+          </span>
+          Ultra Fitness
+        </a>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#Inicio">Inicio</a></li>
+          <li><a href="#Planes">Planes</a></li>
+          <li><a href="#Servicios">Servicios</a></li>
+          <li><a href="#Sedes">Sedes</a></li>
+        </ul>
+        <div class="nav-cta">
+          <a href="#Iniciar" class="btn-ghost">Iniciar Sesión</a>
+          <a href="#Empezar" class="btn-acid">Empezar</a>
+        </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span>
+        </button>
+      </div>
+    </nav>
+  </app-root>
+</body>
+
 </html>
