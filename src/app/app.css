@@ -1,0 +1,8 @@
+.servicios-container{
+    display: flex;
+    padding: .75rem;
+    gap: 16px;
+    background-color: #143109;
+    flex-wrap: wrap;
+    justify-content: center;
+}
