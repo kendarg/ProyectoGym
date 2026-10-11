@@ -8,11 +8,20 @@
     transition: transform .3s ease;
 }
 .card:hover{
-    transform: scale(1.1);
+    transform: scale(1.05) translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.card:hover h1{
+    color: #F26419;
+}
+.card:hover p{
+    color: #F6AE2D;
 }
 h1{
     color: #202C59;
+    transition: color .3s ease;
 }
 p{
     color: #0E7C7B;
+    transition: color .3s ease;
 }
