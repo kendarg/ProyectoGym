@@ -2,6 +2,9 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.2.1.
 
+## link:
+- Trello: https://trello.com/b/CxxNSYgb/pagina
+- Figma: https://www.figma.com/design/TBmVzjVvDlCTLuCGDAJSKO/Figma-basics?node-id=0-286&t=yWX6bEncBGqnaQHs-1
 ## Development server
 
 To start a local development server, run:
