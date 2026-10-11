@@ -1,0 +1,29 @@
+.root{
+    --background-primary: #08252D;
+    --background-secondary: #064C58;
+    --text-primary: #7FDEE2;
+    --text-secondary: #DFFBCA;
+    --color-extra: #74CD59;
+}
+.booking-container{
+    background-color: var(--background-primary);
+    text-align: center;
+    padding: 2rem;
+}
+.booking-options{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+.booking-options h1{
+    color: var(--text-primary);
+}
+.booking-options p{
+    color: var(--text-secondary);
+}
+.booking-options button {
+    background-color: var(--color-extra);
+    padding: 1rem;
+    cursor: pointer;
+}
