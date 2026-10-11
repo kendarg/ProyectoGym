@@ -1,10 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-<<<<<<< HEAD
 import { GymCard } from './shared/components/gym-card/gym-card';
-=======
-import { share } from 'rxjs';
->>>>>>> 544901943d78c3f879cb1e29db188a13f4be3bc7
 
 @Component({
   imports: [RouterOutlet,GymCard],
