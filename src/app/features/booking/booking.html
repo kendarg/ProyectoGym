@@ -2,7 +2,8 @@
     <h1>Reserva tu atención</h1>
     <p>Selecciona el tipo de atención que necesitas</p>
     <div class="booking-options">
-        <button type="button">Entrenamiento con coach</button>
-        <button type="button">Cita con el nutricionista</button>
+        <button type="button" (click)="tipoAtencion ='coach'">Entrenamiento con coach</button>
+        <button type="button" (click)="tipoAtencion='nutricionista'">Cita con el nutricionista</button>
+        <p>Tipo de atención seleccionado:{{tipoAtencion}}</p>
     </div>
 </section>

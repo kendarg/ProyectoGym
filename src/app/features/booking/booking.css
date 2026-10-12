@@ -1,12 +1,5 @@
-.root{
-    --background-primary: #08252D;
-    --background-secondary: #064C58;
-    --text-primary: #7FDEE2;
-    --text-secondary: #DFFBCA;
-    --color-extra: #74CD59;
-}
 .booking-container{
-    background-color: var(--background-primary);
+    background-color: #08252D;
     text-align: center;
     padding: 2rem;
 }
@@ -15,15 +8,16 @@
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
+    background-color: #064C58;
 }
-.booking-options h1{
-    color: var(--text-primary);
+.booking-container h1{
+    color: #7FDEE2;
 }
-.booking-options p{
-    color: var(--text-secondary);
+.booking-container p{
+    color: #DFFBCA;
 }
 .booking-options button {
-    background-color: var(--color-extra);
+    background-color: #74CD59;
     padding: 1rem;
     cursor: pointer;
 }
