@@ -123,3 +123,46 @@
     background-color: #5DBB43;
     border-color: #5DBB43;
 }
+
+.booking-modal {
+    background-color: #064C58;
+    color: #DFFBCA;
+    border: 1px solid #16717A;
+    border-radius: 14px;
+}
+
+.booking-modal .modal-title {
+    color: #7FDEE2;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.booking-modal .modal-header,
+.booking-modal .modal-footer {
+    border-color: #16717A;
+}
+
+.booking-modal .btn-close {
+    filter: invert(1);
+}
+
+.booking-modal .modal-body>p {
+    color: #DFFBCA;
+}
+
+.booking-modal .btn-success {
+    background-color: #74CD59;
+    border-color: #74CD59;
+    color: #08252D;
+    font-weight: 600;
+}
+
+.booking-modal .btn-success:hover {
+    background-color: #5DBB43;
+    border-color: #5DBB43;
+}
+
+.booking-modal .btn-secondary {
+    background-color: #08252D;
+    border-color: #16717A;
+}

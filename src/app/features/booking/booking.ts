@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class Booking {
     tipoAtencion = '';
+    modalAbierto = false;
     fechaReserva = '';
     horaReserva = '';
     mensajeConfirmacion = '';
