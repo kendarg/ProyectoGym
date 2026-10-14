@@ -11,12 +11,14 @@ export class Booking {
     tipoAtencion = '';
     fechaReserva = '';
     horaReserva = '';
+    mensajeConfirmacion = '';
     fechaMinima = new Date().toLocaleDateString('en-CA');
     confirmarReserva() {
-        console.log('Reserva preparada:', {
-            tipoAtencion: this.tipoAtencion,
-            fecha: this.fechaReserva,
-            hora: this.horaReserva
-        });
+        this.mensajeConfirmacion =
+            `Reserva preparada correctamente para ${this.tipoAtencion}. ` +
+            `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}.`;
+    }
+    limpiarConfirmacion() {
+        this.mensajeConfirmacion = '';
     }
 }

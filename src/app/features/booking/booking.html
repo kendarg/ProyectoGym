@@ -2,8 +2,8 @@
     <h1>Reserva tu atención</h1>
     <p>Selecciona el tipo de atención que necesitas</p>
     <div class="booking-options">
-        <button type="button" (click)="tipoAtencion ='coach'">Entrenamiento con coach</button>
-        <button type="button" (click)="tipoAtencion='nutricionista'">Cita con el nutricionista</button>
+        <button type="button" (click)="tipoAtencion = 'coach'; limpiarConfirmacion()">Entrenamiento con coach</button>
+        <button type="button" (click)="tipoAtencion = 'nutricionista'; limpiarConfirmacion()">Cita con el nutricionista</button>
     </div>
     <p>Tipo de atención seleccionado: {{tipoAtencion}}</p>
     <p>Fecha de atención: {{fechaReserva}}</p>
@@ -26,17 +26,24 @@
     <form #formularioReserva="ngForm" (ngSubmit)="confirmarReserva()">
         <div class="form-field">
             <label for="fecha">Fecha de la reserva</label>
-            <input type="date" id="fecha" name="fecha" [min]="fechaMinima" [(ngModel)]="fechaReserva" required />
+            <input type="date" id="fecha" name="fecha" [min]="fechaMinima" [(ngModel)]="fechaReserva" (ngModelChange)="limpiarConfirmacion()" required />
         </div>
 
         <div class="form-field">
             <label for="hora">Hora de la reserva</label>
-            <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva" required />
+            <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva" (ngModelChange)="limpiarConfirmacion()" required />
         </div>
 
         <button type="submit" [disabled]="formularioReserva.invalid">
             Confirmar reserva
         </button>
     </form>
+    
+@if (mensajeConfirmacion !== '') {
+    <p class="confirmation-message">
+        {{ mensajeConfirmacion }}
+    </p>
+}
+
 </section>
 }
