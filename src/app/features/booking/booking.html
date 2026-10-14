@@ -112,7 +112,29 @@
                         aria-label="Cerrar" (click)="modalAbierto = false">
                     </button>
                 </div>
+@if (tipoAtencion === 'coach') {
+    <div class="form-field">
+        <label for="entrenador">Selecciona tu entrenador</label>
 
+        <select
+            id="entrenador"
+            name="entrenador"
+            class="form-select"
+            [(ngModel)]="entrenadorSeleccionado"
+            required>
+
+            <option value="" disabled>
+                Elige un entrenador
+            </option>
+
+            @for (entrenador of entrenadores; track entrenador.id) {
+                <option [value]="entrenador.id">
+                    {{ entrenador.nombre }}
+                </option>
+            }
+        </select>
+    </div>
+}
                 <div class="modal-body">
                     <p>Selecciona la fecha y hora que prefieres.</p>
 

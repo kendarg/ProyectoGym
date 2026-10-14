@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 export class Booking {
     tipoAtencion = '';
     modalAbierto = false;
+    entrenadorSeleccionado = '';
+    entrenadores = [{id:1, nombre:'Entrenador 1'}, {id:2, mombre:'Entrenador 2'}, {id:3, nombre:'Entrenador 3'}]
     fechaReserva = '';
     horaReserva = '';
     mensajeConfirmacion = '';
