@@ -1,0 +1,235 @@
+.pricing {
+  --button-accent: #f26109;
+  padding: clamp(48px, 6vw, 80px) 0;
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gap);
+}
+
+.section-header {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.section-tag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+.section-title {
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+}
+
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.toggle-container {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: inset 0 1px 0 var(--white);
+}
+
+.toggle-btn {
+  position: relative;
+  padding: 10px 28px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  transition: background 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.toggle-btn.active {
+  background: var(--button-accent);
+  color: var(--text);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.toggle-btn:focus-visible,
+.pricing-action:focus-visible {
+  outline: 3px solid var(--text);
+  outline-offset: 3px;
+}
+
+.toggle-save {
+  margin-left: 12px;
+  color: #0186e1;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+  gap: 20px;
+}
+
+.pricing-card {
+  position: relative;
+  padding: 32px 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+}
+
+.pricing-card.featured {
+  border: 2px solid var(--button-accent);
+}
+
+.pricing-card.featured::before {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  padding: 4px 16px;
+  transform: translateX(-50%);
+  border-radius: 100px;
+  background: var(--button-accent);
+  color: var(--text);
+  content: 'El mas popular !';
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.pricing-plan-name {
+  margin-bottom: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pricing-plan-desc {
+  margin-bottom: 24px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.pricing-amount {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.pricing-currency {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pricing-value {
+  font-size: 56px;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.pricing-period {
+  color: var(--text-dim);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pricing-billed {
+  min-height: 24px;
+  margin-bottom: 28px;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.pricing .pricing-action {
+  display: flex;
+  width: 100%;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 28px;
+  padding: 10px 22px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.pricing-action.btn-acid {
+  background: var(--button-accent);
+}
+
+.pricing-action.btn-ghost {
+  background: transparent;
+}
+
+.pricing-features {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  list-style: none;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.pricing-features li svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #737373;
+}
+
+@media (max-width: 800px) {
+  .pricing-grid {
+    grid-template-columns: minmax(0, 560px);
+    justify-content: center;
+    gap: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pricing-card {
+    padding: 28px 22px;
+  }
+
+  .pricing-value {
+    font-size: 50px;
+  }
+
+  .toggle-btn {
+    padding: 10px 22px;
+  }
+}

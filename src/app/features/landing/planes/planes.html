@@ -1,0 +1,79 @@
+<section class="pricing" id="Planes" aria-labelledby="pricing-title">
+  <div class="container">
+    <header class="section-header">
+      <p class="section-tag">Costos</p>
+      <h2 class="section-title" id="pricing-title">Membresias simples y grupales</h2>
+    </header>
+
+    <div class="toggle-wrap" role="group" aria-label="Billing frequency">
+      <div class="toggle-container">
+        <button
+          class="toggle-btn"
+          [class.active]="billingCycle() === 'Mensual'"
+          [attr.aria-pressed]="billingCycle() === 'Mensual'"
+          type="button"
+          (click)="setBillingCycle('Mensual')"
+        >
+          Mensual
+        </button>
+        <button
+          class="toggle-btn"
+          [class.active]="billingCycle() === 'Anual'"
+          [attr.aria-pressed]="billingCycle() === 'Anual'"
+          type="button"
+          (click)="setBillingCycle('Anual')"
+        >
+          Anual
+        </button>
+      </div>
+      @if (billingCycle() === 'Anual') {
+        <span class="toggle-save">ahorrar 25%</span>
+      }
+    </div>
+
+    <div class="pricing-grid">
+      @for (plan of plans; track plan.name) {
+        <article class="card pricing-card" [class.featured]="plan.featured">
+          <h3 class="pricing-plan-name">{{ plan.name }}</h3>
+          <p class="pricing-plan-desc">{{ plan.description }}</p>
+          <div class="pricing-amount">
+            <span class="pricing-currency">$</span>
+            <span class="pricing-value">
+              {{ billingCycle() === 'Mensual' ? plan.monthlyPrice : plan.yearlyPrice }}
+            </span>
+          </div>
+          <p class="pricing-period">{{ plan.period }}</p>
+          @if (billingCycle() === 'Anual') {
+            <p class="pricing-billed">${{ plan.annualTotal }} facturacion anual</p>
+          } @else {
+            <p class="pricing-billed">Facturacion mensual</p>
+          }
+          <a
+            href="#Empezar"
+            class="pricing-action"
+            [class.btn-acid]="plan.featured"
+            [class.btn-ghost]="!plan.featured"
+          >
+            {{ plan.action }}
+          </a>
+          <ul class="pricing-features">
+            @for (feature of plan.features; track feature) {
+              <li>
+                <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                  <path
+                    d="M4 9l3.5 3.5L14 5"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+                {{ feature }}
+              </li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+  </div>
+</section>

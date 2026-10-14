@@ -1,0 +1,207 @@
+.hero-carousel {
+  position: relative;
+  height: min(690px, calc(100svh - 64px));
+  margin-top: 64px;
+  overflow: hidden;
+  background: #075aa7;
+  color: #fff;
+}
+
+.hero-slide {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: min(690px, calc(100svh - 64px));
+  padding: clamp(48px, 8vw, 112px) max(24px, calc((100vw - 1200px) / 2));
+  animation: hero-enter 500ms ease both;
+}
+
+.hero-image {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.hero-slide::before {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 87, 170, 0.98) 0%, rgba(0, 104, 195, 0.664) 38%, rgba(0, 43, 78, 0.28) 78%, rgba(0, 0, 0, 0.16) 100%);
+  content: '';
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: min(620px, 68%);
+  padding-bottom: 32px;
+}
+
+.hero-eyebrow {
+  margin-bottom: 16px;
+  color: #ff9b52;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hero-content h1 {
+  max-width: 610px;
+  font-size: clamp(38px, 6vw, 72px);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  line-height: 1.04;
+  text-transform: uppercase;
+}
+
+.hero-description {
+  max-width: 510px;
+  margin-top: 20px;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(16px, 1.8vw, 20px);
+  line-height: 1.55;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 30px;
+  padding: 14px 32px;
+  border-radius: 8px;
+  background: var(--ntext);
+  color: var(--text);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 var(--text);
+  color: var(--white);
+}
+
+.hero-cta:active {
+  transform: translateY(0);
+  box-shadow: 1px 1px 0 var(--text);
+}
+
+.hero-controls {
+  position: absolute;
+  z-index: 2;
+  right: max(24px, calc((100vw - 1200px) / 2));
+  bottom: 30px;
+  left: max(24px, calc((100vw - 1200px) / 2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.hero-arrow,
+.hero-dot {
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              background-color 0.2s ease;
+}
+
+.hero-arrow:hover,
+.hero-dot:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 var(--text);
+}
+
+.hero-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  font-size: 28px;
+  line-height: 1;
+}
+
+.hero-dots {
+  display: flex;
+  gap: 10px;
+}
+
+.hero-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: 50%;
+  background: var(--ntext);
+  border: none;
+}
+
+.hero-dot.is-active {
+  width: 26px;
+  border-color: var(--ntext);
+  border-radius: 999px;
+  background: var(--ntext);
+}
+
+.hero-arrow:focus-visible,
+.hero-dot:focus-visible,
+.hero-cta:focus-visible {
+  outline: 3px solid #ffb36f;
+  outline-offset: 4px;
+}
+
+@keyframes hero-enter {
+  from { opacity: 0.65; }
+  to { opacity: 1; }
+}
+
+@media (max-width: 700px) {
+  .hero-carousel,
+  .hero-slide {
+    height: min(700px, calc(100svh - 64px));
+  }
+
+  .hero-slide {
+    align-items: flex-end;
+    padding: 48px 24px 104px;
+  }
+
+  .hero-image {
+    object-position: 58% center;
+  }
+
+  .hero-slide::before {
+    background: linear-gradient(0deg, rgba(0, 67, 132, 0.98) 0%, rgba(0, 81, 153, 0.86) 48%, rgba(0, 43, 78, 0.16) 100%);
+  }
+
+  .hero-content {
+    width: 100%;
+    padding-bottom: 0;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(36px, 11vw, 56px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide {
+    animation: none;
+  }
+
+  .hero-cta,
+  .hero-arrow,
+  .hero-dot {
+    transition: none;
+  }
+}
