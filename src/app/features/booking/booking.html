@@ -4,6 +4,33 @@
     <div class="booking-options">
         <button type="button" (click)="tipoAtencion ='coach'">Entrenamiento con coach</button>
         <button type="button" (click)="tipoAtencion='nutricionista'">Cita con el nutricionista</button>
-        <p>Tipo de atención seleccionado:{{tipoAtencion}}</p>
     </div>
+    <p>Tipo de atención seleccionado: {{tipoAtencion}}</p>
+    <p>Fecha de atención: {{fechaReserva}}</p>
+    <p>Hora de atención: {{horaReserva}}</p>
 </section>
+
+@if (tipoAtencion !== '') {
+<section class="booking-form">
+    <h2>
+        @if (tipoAtencion === 'coach') {
+        Reserva tu entrenamiento con coach
+        } @else {
+        Agenda tu cita con el nutricionista
+        }
+    </h2>
+
+    <p>Selecciona la fecha y hora que prefieres.</p>
+
+    <div class="form-field">
+        <label for="fecha">Fecha de la reserva</label>
+        <input type="date" id="fecha" name="fecha" [(ngModel)]="fechaReserva" />
+    </div>
+
+    <div class="form-field">
+        <label for="hora">Hora de la reserva</label>
+        <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva" />
+    </div>
+
+</section>
+}

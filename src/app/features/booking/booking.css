@@ -1,23 +1,62 @@
-.booking-container{
+.booking-container {
     background-color: #08252D;
     text-align: center;
     padding: 2rem;
 }
-.booking-options{
+
+.booking-options {
     display: flex;
     justify-content: center;
     gap: 1rem;
     flex-wrap: wrap;
     background-color: #064C58;
 }
-.booking-container h1{
+
+.booking-container h1 {
     color: #7FDEE2;
 }
-.booking-container p{
+
+.booking-container p {
     color: #DFFBCA;
 }
+
 .booking-options button {
     background-color: #74CD59;
     padding: 1rem;
     cursor: pointer;
+}
+
+.booking-form {
+    margin: 2rem auto;
+    max-width: 500px;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: #064C58;
+}
+
+.booking-form h2 {
+    color: #7FDEE2;
+}
+
+.booking-form p {
+    color: #DFFBCA;
+}
+
+.form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    text-align: left;
+}
+
+.form-field label {
+    color: #DFFBCA;
+}
+
+.form-field input {
+    padding: 0.75rem;
+    border: 1px solid #74CD59;
+    border-radius: 6px;
+    font: inherit;
 }
