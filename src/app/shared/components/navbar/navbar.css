@@ -8,6 +8,10 @@
   line-height: 1;
 }
 
+.nav-logo-text strong {
+  color: var(--ntext);
+}
+
 .container {
   max-width: var(--container);
   margin: 0 auto;
