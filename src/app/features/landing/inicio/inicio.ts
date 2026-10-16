@@ -18,7 +18,7 @@ interface HeroSlide {
 export class Inicio implements OnDestroy {
   protected readonly slides: HeroSlide[] = [
     {
-      image: '/imgGym/009.jpg',
+      image: '/imgGymCarrusel/009.jpg',
       alt: 'Zona de entrenamiento equipada de Ultra Fitness',
       eyebrow: 'Tu mejor versión empieza hoy',
       title: 'Transforma tu cuerpo. Fortalece tu vida.',
@@ -27,7 +27,7 @@ export class Inicio implements OnDestroy {
       href: '#Planes',
     },
     {
-      image: '/imgGym/006.jpg',
+      image: '/imgGymCarrusel/006.jpg',
       alt: 'Socios de Ultra Fitness entrenando con pesas',
       eyebrow: 'Entrena con propósito',
       title: 'Cada repetición te acerca a tu meta.',
@@ -36,7 +36,7 @@ export class Inicio implements OnDestroy {
       href: '#Planes',
     },
     {
-      image: '/imgGym/004.jpg',
+      image: '/imgGymCarrusel/004.jpg',
       alt: 'Socios entrenando en una clase grupal',
       eyebrow: 'La energía se comparte',
       title: 'Más movimiento. Más comunidad.',
@@ -45,7 +45,7 @@ export class Inicio implements OnDestroy {
       href: '#Servicios',
     },
     {
-      image: '/imgGym/003.jpg',
+      image: '/imgGymCarrusel/003.jpg',
       alt: 'Socios corriendo en caminadoras',
       eyebrow: 'El momento es ahora',
       title: 'Empieza hoy. Sorpréndete mañana.',

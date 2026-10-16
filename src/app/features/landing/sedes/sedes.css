@@ -1,0 +1,143 @@
+.spaces {
+  padding: clamp(48px, 6vw, 80px) 0;
+  background: var(--bg);
+}
+
+.container {
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 var(--gap);
+}
+
+.section-header {
+  margin-bottom: 36px;
+  text-align: center;
+}
+
+.section-header h2 {
+  margin-bottom: 8px;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+}
+
+.section-header p {
+  color: var(--text-muted);
+}
+
+.spaces-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.space-card {
+  position: relative;
+  min-width: 0;
+  height: 360px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(17, 17, 17, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.space-thumbnail {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.4s ease;
+}
+
+.space-card:nth-child(1) .space-thumbnail {
+  background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.05) 20%, rgba(17, 17, 17, 0.82) 100%), url('/imgSedes/sede1.jpg');
+}
+
+.space-card:nth-child(2) .space-thumbnail {
+  background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.05) 20%, rgba(17, 17, 17, 0.82) 100%), url('/imgSedes/sede2.jpg');
+}
+
+.space-card:nth-child(3) .space-thumbnail {
+  background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.05) 20%, rgba(17, 17, 17, 0.82) 100%), url('/imgSedes/sede3.jpg');
+}
+
+.space-card:nth-child(4) .space-thumbnail {
+  background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.05) 20%, rgba(17, 17, 17, 0.82) 100%), url('/imgSedes/sede4.jpg');
+}
+
+.space-card:nth-child(5) .space-thumbnail {
+  background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.05) 20%, rgba(17, 17, 17, 0.82) 100%), url('/imgSedes/sede5.jpg');
+}
+
+.space-card:nth-child(6) .space-thumbnail {
+  background-image: linear-gradient(180deg, rgba(17, 17, 17, 0.05) 20%, rgba(17, 17, 17, 0.82) 100%), url('/imgSedes/sede6.jpg');
+}
+
+.space-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(17, 17, 17, 0.16);
+}
+
+.space-card:hover .space-thumbnail {
+  transform: scale(1.06);
+}
+
+.space-info {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1;
+}
+
+.space-info h3 {
+  margin-bottom: 4px;
+  color: var(--white);
+  font-size: 21px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+.space-info p {
+  margin-bottom: 14px;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 14px;
+}
+
+.space-features {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.space-feature-tag {
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 100px;
+  background: rgba(17, 17, 17, 0.38);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 900px) {
+  .spaces-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .spaces-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+
+  .space-card {
+    height: 340px;
+  }
+}
