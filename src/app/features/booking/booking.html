@@ -10,7 +10,7 @@
                         <h2 class="card-title">Coach</h2>
                         <p class="card-text">Reserva una sesión de entrenamiento personalizado.</p>
                         <button type="button" class="btn btn-success"
-                            (click)="tipoAtencion = 'coach'; limpiarConfirmacion(); modalAbierto = true">
+                            (click)="tipoAtencion = 'coach'; limpiarConfirmacion(); entrenadorSeleccionado = ''; modalAbierto = true">
                             Reservar
                         </button>
                     </div>
@@ -86,101 +86,90 @@
 </section>
 
 @if (modalAbierto && tipoAtencion !== '') {
-    <div class="modal fade show d-block" tabindex="-1" role="dialog"
-        aria-modal="true" aria-labelledby="tituloReserva">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content booking-modal">
+<div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tituloReserva">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content booking-modal">
 
-                <div class="modal-header">
-                    <h2 class="modal-title" id="tituloReserva">
-                        @if (tipoAtencion === 'coach') {
-                            Reserva tu entrenamiento con Coach
-                        } @else if (tipoAtencion === 'fisio') {
-                            Agenda tu cita de Fisio
-                        } @else if (tipoAtencion === 'sauna') {
-                            Reserva tu turno de Sauna
-                        } @else if (tipoAtencion === 'fit-diet') {
-                            Agenda tu cita de Fit-Diet
-                        } @else if (tipoAtencion === 'zumba') {
-                            Reserva tu clase de Zumba
-                        } @else if (tipoAtencion === 'box') {
-                            Reserva tu clase de Box
-                        }
-                    </h2>
+            <div class="modal-header">
+                <h2 class="modal-title" id="tituloReserva">
+                    @if (tipoAtencion === 'coach') {
+                    Reserva tu entrenamiento con Coach
+                    } @else if (tipoAtencion === 'fisio') {
+                    Agenda tu cita de Fisio
+                    } @else if (tipoAtencion === 'sauna') {
+                    Reserva tu turno de Sauna
+                    } @else if (tipoAtencion === 'fit-diet') {
+                    Agenda tu cita de Fit-Diet
+                    } @else if (tipoAtencion === 'zumba') {
+                    Reserva tu clase de Zumba
+                    } @else if (tipoAtencion === 'box') {
+                    Reserva tu clase de Box
+                    }
+                </h2>
 
-                    <button type="button" class="btn-close"
-                        aria-label="Cerrar" (click)="modalAbierto = false">
-                    </button>
-                </div>
-@if (tipoAtencion === 'coach') {
-    <div class="form-field">
-        <label for="entrenador">Selecciona tu entrenador</label>
-
-        <select
-            id="entrenador"
-            name="entrenador"
-            class="form-select"
-            [(ngModel)]="entrenadorSeleccionado"
-            required>
-
-            <option value="" disabled>
-                Elige un entrenador
-            </option>
-
-            @for (entrenador of entrenadores; track entrenador.id) {
-                <option [value]="entrenador.id">
-                    {{ entrenador.nombre }}
-                </option>
-            }
-        </select>
-    </div>
-}
-                <div class="modal-body">
-                    <p>Selecciona la fecha y hora que prefieres.</p>
-
-                    <form #formularioReserva="ngForm"
-                        (ngSubmit)="confirmarReserva(); modalAbierto = false">
-
-                        <div class="form-field">
-                            <label for="fecha">Fecha de la reserva</label>
-                            <input type="date" id="fecha" name="fecha"
-                                [min]="fechaMinima"
-                                [(ngModel)]="fechaReserva"
-                                (ngModelChange)="limpiarConfirmacion()"
-                                required />
-                        </div>
-
-                        <div class="form-field">
-                            <label for="hora">Hora de la reserva</label>
-                            <input type="time" id="hora" name="hora"
-                                [(ngModel)]="horaReserva"
-                                (ngModelChange)="limpiarConfirmacion()"
-                                required />
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary"
-                                (click)="modalAbierto = false">
-                                Cancelar
-                            </button>
-
-                            <button type="submit" class="btn btn-success"
-                                [disabled]="formularioReserva.invalid">
-                                Confirmar reserva
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
+                <button type="button" class="btn-close" aria-label="Cerrar" (click)="modalAbierto = false">
+                </button>
             </div>
+            <div class="modal-body">
+                <form #formularioReserva="ngForm" (ngSubmit)="confirmarReserva(); modalAbierto = false">
+                    @if (tipoAtencion === 'coach') {
+                    <div class="form-field">
+                        <label for="entrenador">Selecciona tu entrenador</label>
+
+                        <select id="entrenador" name="entrenador" class="form-select"
+                            [(ngModel)]="entrenadorSeleccionado" required>
+
+                            <option value="" disabled>
+                                Elige un entrenador
+                            </option>
+
+                            @for (entrenador of entrenadores; track entrenador.id) {
+                            <option [value]="entrenador.id">
+                                {{ entrenador.nombre }}
+                            </option>
+                            }
+                        </select>
+                        @if (obtenerEntrenadorSeleccionado(); as entrenador) {
+                        <p>
+                            Días de atención: {{ entrenador.dias.join(', ') }}
+                        </p>
+                        }
+                    </div>
+                    }
+                    <p>Selecciona la fecha y hora que prefieres.</p>
+                    <div class="form-field">
+                        <label for="fecha">Fecha de la reserva</label>
+                        <input type="date" id="fecha" name="fecha" [min]="fechaMinima" [(ngModel)]="fechaReserva"
+                            (ngModelChange)="limpiarConfirmacion()" required />
+                    </div>
+
+                    <div class="form-field">
+                        <label for="hora">Hora de la reserva</label>
+                        <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva"
+                            (ngModelChange)="limpiarConfirmacion()" required />
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" (click)="modalAbierto = false">
+                            Cancelar
+                        </button>
+
+                        <button type="submit" class="btn btn-success" [disabled]="formularioReserva.invalid">
+                            Confirmar reserva
+                        </button>
+                    </div>
+                </form>
+            </div>
+
         </div>
     </div>
+</div>
 
-    <div class="modal-backdrop fade show"></div>
+<div class="modal-backdrop fade show"></div>
 }
 
 @if (mensajeConfirmacion !== '') {
-    <p class="confirmation-message">
-        {{ mensajeConfirmacion }}
-    </p>
+<p class="confirmation-message">
+    {{ mensajeConfirmacion }}
+</p>
 }

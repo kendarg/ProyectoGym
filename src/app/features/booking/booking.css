@@ -1,3 +1,12 @@
+:root{
+    --color-uno: #D4D6D3;
+    --color-dos: #F50203;
+    --color-tres: #0C1113;
+    --color-cuatro: #1C2123;
+    --color-cinco: #4A4F50;
+    --color-seis: #F7F7F7;
+}
+
 .booking-container {
     background-color: #08252D;
     text-align: center;

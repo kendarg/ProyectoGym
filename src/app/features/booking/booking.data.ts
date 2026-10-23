@@ -1,0 +1,27 @@
+
+export const entrenadores = [
+    {
+        id: 1,
+        nombre: 'Sofía Valentina Herrera Gómez',
+        dias: ['lunes', 'miercoles', 'viernes'],
+        horaInicio: '06:00',
+        horaFin: '14:00',
+        duracionSesion: 30
+    },
+    {
+        id: 2,
+        nombre: 'Mateo Alejandro Rojas Silva',
+        dias: ['martes', 'jueves', 'sabado'],
+        horaInicio: '06:00',
+        horaFin: '14:00',
+        duracionSesion: 30
+    },
+    {
+        id: 3,
+        nombre: 'Lucía Fernanda Morales Torres',
+        dias: ['lunes', 'martes', 'jueves'],
+        horaInicio: '06:00',
+        horaFin: '14:00',
+        duracionSesion: 30
+    }
+];
