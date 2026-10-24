@@ -1,10 +1,6 @@
-<router-outlet></router-outlet>
-<div class="servicios-container">
-    @for(servicio of servicios; track servicio.titulo){
-        <app-gym-card 
-        [titulo]="servicio.titulo" 
-        [descripcion]="servicio.descripcion">
-        </app-gym-card>
-    }
-</div>
-<h1>Hola esto es app.html</h1>
+<app-navbar />
+<app-inicio />
+<app-planes />
+<app-sedes />
+<app-footer/>
+<router-outlet />

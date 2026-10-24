@@ -1,21 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Navbar } from './navbar';
 
 describe('Navbar', () => {
-  let component: Navbar;
-  let fixture: ComponentFixture<Navbar>;
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [Navbar],
     }).compileComponents();
-
-    fixture = TestBed.createComponent(Navbar);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should create the navbar', () => {
+    const fixture = TestBed.createComponent(Navbar);
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+
+  it('should render the navigation links', () => {
+    const fixture = TestBed.createComponent(Navbar);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('.nav-links a')).toHaveLength(4);
   });
 });

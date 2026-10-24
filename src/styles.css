@@ -1,1 +1,101 @@
-/* You can add global styles to this file, and also import other style files */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #fafafa;
+  --surface: #f0f0f0;
+  --text: #111111;
+  --text-muted: #666666;
+  --text-dim: #999999;
+  --accent: #0186e1;
+  --accent-hover: #c2eb00;
+  --border: #e5e5e5;
+  --border-light: #eeeeee;
+  --white: #ffffff;
+  --ntext: #f26109;
+
+  --section-pad: clamp(80px, 10vw, 140px);
+  --container: 1200px;
+  --gap: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', sans-serif;
+  line-height: 1.6;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+.btn-acid,
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 32px;
+  border-radius: 8px;
+  color: var(--text);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-decoration: none;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+              border-color 0.2s ease,
+              color 0.2s ease;
+}
+
+.btn-acid {
+  border: none;
+  background: var(--button-accent, var(--accent));
+  user-select: none;
+}
+
+.btn-acid:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 var(--text);
+  color: var(--white);
+}
+
+.btn-acid:active {
+  transform: translateY(0);
+  box-shadow: 1px 1px 0 var(--text);
+}
+
+.btn-ghost {
+  margin-left: 20px;
+  border: 1px solid var(--border);
+  background: transparent;
+}
+
+.btn-ghost:hover {
+  transform: translateY(-2px);
+  box-shadow: 4px 4px 0 var(--text);
+  border-color: var(--ntext);
+  color: var(--ntext);
+}
