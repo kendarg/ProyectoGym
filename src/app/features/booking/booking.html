@@ -189,8 +189,21 @@
 <div class="modal-backdrop fade show"></div>
 }
 
-@if (mensajeConfirmacion !== '') {
-<p class="confirmation-message">
-    {{ mensajeConfirmacion }}
-</p>
-}
+<section class="mis-reservas">
+    <h2>Mis reservas</h2>
+    @if (reservasTemporales.length === 0) {
+    <p>Aún no tienes reservas registradas.</p>
+    } @else {
+    @for (reserva of reservasTemporales; track $index) {
+        <div class="card mb-3">
+            <div class="card-body">
+                <h3 class="card-title">Reserva de Coach</h3>
+                <p>Entrenador: {{ reserva.entrenadorNombre }}</p>
+                <p>Fecha: {{ reserva.fecha }}</p>
+                <p>Hora: {{ reserva.hora }}</p>
+                <p>Duración: {{ reserva.duracion }} minutos</p>
+            </div>
+        </div>
+        }
+    }
+</section>

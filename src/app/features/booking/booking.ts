@@ -4,6 +4,7 @@ import { entrenadores } from './booking.data';
 
 interface ReservaTemporal {
     entrenadorId: number;
+    entrenadorNombre: string;
     fecha: string;
     hora: string;
     duracion: number;
@@ -39,6 +40,7 @@ export class Booking {
 
             this.reservasTemporales.push({
                 entrenadorId: entrenador.id,
+                entrenadorNombre: entrenador.nombre,
                 fecha: this.fechaReserva,
                 hora: this.horaReserva,
                 duracion: entrenador.duracionSesion
