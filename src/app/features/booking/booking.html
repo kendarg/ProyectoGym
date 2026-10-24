@@ -10,7 +10,7 @@
                         <h2 class="card-title">Coach</h2>
                         <p class="card-text">Reserva una sesión de entrenamiento personalizado.</p>
                         <button type="button" class="btn btn-success"
-                            (click)="tipoAtencion = 'coach'; limpiarConfirmacion(); entrenadorSeleccionado = ''; modalAbierto = true">
+                            (click)="tipoAtencion = 'coach'; limpiarFormulario(); modalAbierto = true">
                             Reservar
                         </button>
                     </div>
@@ -23,7 +23,7 @@
                         <h2 class="card-title">Fisio</h2>
                         <p class="card-text">Agenda una sesión de fisioterapia.</p>
                         <button type="button" class="btn btn-success"
-                            (click)="tipoAtencion = 'fisio'; limpiarConfirmacion(); modalAbierto = true">
+                            (click)="tipoAtencion = 'fisio'; limpiarFormulario(); modalAbierto = true">
                             Reservar
                         </button>
                     </div>
@@ -36,7 +36,7 @@
                         <h2 class="card-title">Sauna</h2>
                         <p class="card-text">Selecciona un turno para disfrutar del sauna.</p>
                         <button type="button" class="btn btn-success"
-                            (click)="tipoAtencion = 'sauna'; limpiarConfirmacion(); modalAbierto = true">
+                            (click)="tipoAtencion = 'sauna'; limpiarFormulario(); modalAbierto = true">
                             Reservar
                         </button>
                     </div>
@@ -49,7 +49,7 @@
                         <h2 class="card-title">Fit-Diet</h2>
                         <p class="card-text">Agenda una asesoría de nutrición.</p>
                         <button type="button" class="btn btn-success"
-                            (click)="tipoAtencion = 'fit-diet'; limpiarConfirmacion(); modalAbierto = true">
+                            (click)="tipoAtencion = 'fit-diet'; limpiarFormulario(); modalAbierto = true">
                             Reservar
                         </button>
                     </div>
@@ -62,7 +62,7 @@
                         <h2 class="card-title">Zumba</h2>
                         <p class="card-text">Encuentra una clase grupal de Zumba.</p>
                         <button type="button" class="btn btn-success"
-                            (click)="tipoAtencion = 'zumba'; limpiarConfirmacion(); modalAbierto = true">
+                            (click)="tipoAtencion = 'zumba'; limpiarFormulario(); modalAbierto = true">
                             Reservar
                         </button>
                     </div>
@@ -75,7 +75,7 @@
                         <h2 class="card-title">Box</h2>
                         <p class="card-text">Consulta y reserva una clase de boxeo.</p>
                         <button type="button" class="btn btn-success"
-                            (click)="tipoAtencion = 'box'; limpiarConfirmacion(); modalAbierto = true">
+                            (click)="tipoAtencion = 'box'; limpiarFormulario(); modalAbierto = true">
                             Reservar
                         </button>
                     </div>
@@ -117,7 +117,7 @@
                         <label for="entrenador">Selecciona tu entrenador</label>
 
                         <select id="entrenador" name="entrenador" class="form-select"
-                            [(ngModel)]="entrenadorSeleccionado" required>
+                            [(ngModel)]="entrenadorSeleccionado" (ngModelChange)="limpiarSeleccionHorario()" required>
 
                             <option value="" disabled>
                                 Elige un entrenador
@@ -134,33 +134,54 @@
                             Días de atención: {{ entrenador.dias.join(', ') }}
                         </p>
                         }
+                        @if (tipoAtencion === 'coach' && fechaReserva && entrenadorSeleccionado &&
+                        !validarDiaEntrenador()) {
+                        <p class="text-danger">
+                            Este entrenador no atiende ese día. Selecciona otra fecha.
+                        </p>
+                        }
                     </div>
                     }
                     <p>Selecciona la fecha y hora que prefieres.</p>
                     <div class="form-field">
                         <label for="fecha">Fecha de la reserva</label>
                         <input type="date" id="fecha" name="fecha" [min]="fechaMinima" [(ngModel)]="fechaReserva"
-                            (ngModelChange)="limpiarConfirmacion()" required />
+                            (ngModelChange)="limpiarSeleccionFecha()" required />
                     </div>
-
                     <div class="form-field">
                         <label for="hora">Hora de la reserva</label>
+                        @if (tipoAtencion === 'coach') {
+                        <select id="hora" name="hora" class="form-select" [(ngModel)]="horaReserva"
+                            (ngModelChange)="limpiarConfirmacion()" required>
+                            <option value="" disabled>Selecciona una hora disponible</option>
+                            @for (hora of generarHorasDisponibles(); track hora) {
+                            <option [value]="hora">{{ hora }}</option>
+                            }
+                        </select>
+                        } @else {
                         <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva"
                             (ngModelChange)="limpiarConfirmacion()" required />
+                        }
+                        @if (tipoAtencion === 'coach' && fechaReserva && entrenadorSeleccionado &&
+                        !validarDiaEntrenador()) {
+                        <p class="text-danger">
+                            Este entrenador no atiende ese día. Selecciona otra fecha.
+                        </p>
+                        }
                     </div>
-
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" (click)="modalAbierto = false">
                             Cancelar
                         </button>
 
-                        <button type="submit" class="btn btn-success" [disabled]="formularioReserva.invalid">
+                        <button type="submit" class="btn btn-success" [disabled]="formularioReserva.invalid
+                        || (tipoAtencion === 'coach' && !validarDiaEntrenador())
+                        || (tipoAtencion === 'coach' && !validarHoraEntrenador())">
                             Confirmar reserva
                         </button>
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </div>
