@@ -2,6 +2,13 @@ import { Component } from "@angular/core";
 import { FormsModule } from '@angular/forms';
 import { entrenadores } from './booking.data';
 
+interface ReservaTemporal {
+    entrenadorId: number;
+    fecha: string;
+    hora: string;
+    duracion: number;
+}
+
 @Component({
     selector: 'app-booking',
     imports: [FormsModule],
@@ -16,9 +23,27 @@ export class Booking {
     fechaReserva = '';
     horaReserva = '';
     horasDisponibles: string[] = [];
+    reservasTemporales: ReservaTemporal[] = [];
     mensajeConfirmacion = '';
     fechaMinima = new Date().toLocaleDateString('en-CA');
     confirmarReserva() {
+        if (this.tipoAtencion === 'coach') {
+            const entrenador = this.obtenerEntrenadorSeleccionado();
+
+            if (!entrenador || !this.fechaReserva || !this.validarDiaEntrenador()
+                || !this.validarHoraEntrenador() || this.horarioOcupado(this.horaReserva)) {
+                this.mensajeConfirmacion =
+                    'Verifica el entrenador, la fecha y la disponibilidad del horario.';
+                return;
+            }
+
+            this.reservasTemporales.push({
+                entrenadorId: entrenador.id,
+                fecha: this.fechaReserva,
+                hora: this.horaReserva,
+                duracion: entrenador.duracionSesion
+            });
+        }
         let nombreEntrenador = '';
         if (this.tipoAtencion === 'coach') {
             const entrenador = this.entrenadores.find(
@@ -90,10 +115,41 @@ export class Booking {
             const hora = Math.floor(minutos / 60).toString().padStart(2, '0');
             const minuto = (minutos % 60).toString().padStart(2, '0');
 
-            horas.push(`${hora}:${minuto}`);
+            const horaDisponible = `${hora}:${minuto}`;
+
+            if (!this.horarioOcupado(horaDisponible)) {
+                horas.push(horaDisponible);
+            }
         }
 
         return horas;
+    }
+    horarioOcupado(hora: string): boolean {
+        const entrenador = this.obtenerEntrenadorSeleccionado();
+
+        if (!entrenador || !this.fechaReserva) {
+            return false;
+        }
+
+        const [horaInicio, minutoInicio] = hora.split(':').map(Number);
+        const inicioNuevo = horaInicio * 60 + minutoInicio;
+        const finNuevo = inicioNuevo + entrenador.duracionSesion;
+
+        return this.reservasTemporales.some(reserva => {
+            if (
+                reserva.entrenadorId !== entrenador.id ||
+                reserva.fecha !== this.fechaReserva
+            ) {
+                return false;
+            }
+
+            const [horaReserva, minutoReserva] = reserva.hora.split(':').map(Number);
+            const inicioExistente = horaReserva * 60 + minutoReserva;
+            const finExistente = inicioExistente + reserva.duracion;
+
+            return inicioNuevo < finExistente &&
+                finNuevo > inicioExistente;
+        });
     }
     limpiarConfirmacion() {
         this.mensajeConfirmacion = '';
