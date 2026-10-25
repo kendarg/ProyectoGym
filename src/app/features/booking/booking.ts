@@ -684,13 +684,15 @@ export class Booking {
                         this.obtenerEntrenadorBoxDisponible(hora))) {
                     horas.push(hora);
                 }
-            } else if (
-                this.entrenadoresBox.some(
-                    entrenador =>
-                        !this.entrenadorBoxOcupado(entrenador.id, hora)
-                )
-            ) {
-                horas.push(hora);
+            } else {
+                const entrenadorId = Number(this.entrenadorBoxSeleccionado);
+
+                if (
+                    this.entrenadorBoxSeleccionado &&
+                    !this.entrenadorBoxOcupado(entrenadorId, hora)
+                ) {
+                    horas.push(hora);
+                }
             }
         }
 
@@ -776,6 +778,7 @@ export class Booking {
                 finNuevo > inicioExistente;
         });
     }
+
     entrenadorBoxSeleccionadoOcupado(): boolean {
         if (!this.entrenadorBoxSeleccionado || !this.horaReserva) {
             return false;
@@ -786,6 +789,7 @@ export class Booking {
             this.horaReserva
         );
     }
+
     limpiarConfirmacion() {
         this.mensajeConfirmacion = '';
     }
