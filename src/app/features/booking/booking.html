@@ -171,6 +171,35 @@
                         }
                     </div>
                     }
+
+                    @if (tipoAtencion === 'fit-diet') {
+                    <div class="form-field">
+                        <label for="nutricionista">Selecciona tu nutricionista</label>
+                        <select id="nutricionista" name="nutricionista" class="form-select"
+                            [(ngModel)]="nutricionistaSeleccionado" (ngModelChange)="limpiarSeleccionHorario()"
+                            required>
+                            <option value="" disabled>
+                                Elige un nutricionista
+                            </option>
+
+                            @for (nutricionista of nutricionistas; track nutricionista.id) {
+                            <option [value]="nutricionista.id">
+                                {{ nutricionista.nombre }}
+                            </option>
+                            }
+                        </select>
+                        @if (obtenerNutricionistaSeleccionado(); as nutricionista) {
+                        <p>Días de atención: {{ nutricionista.dias.join(', ') }}</p>
+                        <p>Duración de la sesión: {{ nutricionista.duracionSesion }} minutos</p>
+                        }
+                        @if (fechaReserva && nutricionistaSeleccionado && !validarDiaNutricionista()) {
+                        <p class="text-danger">
+                            Este nutricionista no atiende ese día. Selecciona otra fecha.
+                        </p>
+                        }
+                    </div>
+                    }
+
                     <p>Selecciona la fecha y hora que prefieres.</p>
                     <div class="form-field">
                         <label for="fecha">Fecha de la reserva</label>
@@ -183,7 +212,17 @@
                         <select id="hora" name="hora" class="form-select" [(ngModel)]="horaReserva"
                             (ngModelChange)="limpiarConfirmacion()" required>
                             <option value="" disabled>Selecciona una hora disponible</option>
+
                             @for (hora of generarHorasDisponibles(); track hora) {
+                            <option [value]="hora">{{ hora }}</option>
+                            }
+                        </select>
+                        } @else if (tipoAtencion === 'fit-diet') {
+                        <select id="hora" name="hora" class="form-select" [(ngModel)]="horaReserva"
+                            (ngModelChange)="limpiarConfirmacion()" required>
+                            <option value="" disabled>Selecciona una hora disponible</option>
+
+                            @for (hora of generarHorasNutricionista(); track hora) {
                             <option [value]="hora">{{ hora }}</option>
                             }
                         </select>
@@ -191,6 +230,7 @@
                         <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva"
                             (ngModelChange)="limpiarConfirmacion()" required />
                         }
+
                         @if (tipoAtencion === 'coach' && fechaReserva && entrenadorSeleccionado &&
                         !validarDiaEntrenador()) {
                         <p class="text-danger">
@@ -205,7 +245,10 @@
 
                         <button type="submit" class="btn btn-success" [disabled]="formularioReserva.invalid
                         || (tipoAtencion === 'coach' && !validarDiaEntrenador())
-                        || (tipoAtencion === 'coach' && !validarHoraEntrenador())">
+                        || (tipoAtencion === 'coach' && !validarHoraEntrenador()) 
+                        || (tipoAtencion === 'fit-diet' && !validarDiaNutricionista())
+                        || (tipoAtencion === 'fit-diet' && !validarHoraNutricionista())
+                        || (tipoAtencion === 'fit-diet' && horarioNutricionistaOcupado(horaReserva))">
                             Confirmar reserva
                         </button>
                     </div>
@@ -224,18 +267,19 @@
     @if (reservasTemporales.length === 0) {
     <p>Aún no tienes reservas registradas.</p>
     } @else {
-        @for (reserva of reservasTemporales; track $index) {
-            <div class="card mb-3">
-                <div class="card-body">
-                    <h3 class="card-title">
-                        Reserva de {{ reserva.tipoAtencion === 'coach' ? 'Coach' : 'Fisio' }}
-                    </h3>
-                    <p>Profesional: {{ reserva.profesionalNombre }}</p>
-                    <p>Fecha: {{ reserva.fecha }}</p>
-                    <p>Hora: {{ reserva.hora }}</p>
-                    <p>Duración: {{ reserva.duracion }} minutos</p>
-                </div>
-            </div>
-        }
+    @for (reserva of reservasTemporales; track $index) {
+    <div class="card mb-3">
+        <div class="card-body">
+            <h3 class="card-title">
+                Reserva de {{ reserva.tipoAtencion === 'coach' ? 'Coach' 
+                : reserva.tipoAtencion === 'fisio' ? 'Fisio' : 'Fit-Diet'}}
+            </h3>
+            <p>Profesional: {{ reserva.profesionalNombre }}</p>
+            <p>Fecha: {{ reserva.fecha }}</p>
+            <p>Hora: {{ reserva.hora }}</p>
+            <p>Duración: {{ reserva.duracion }} minutos</p>
+        </div>
+    </div>
+    }
     }
 </section>

@@ -78,3 +78,10 @@ export const nutricionistas = [
         duracionSesion: 15
     }
 ];
+
+export const sauna = {
+    duracionTurno: 20,
+    capacidadPorTurno: 5,
+    dias: ['lunes', 'miercoles', 'viernes'],
+    horarios: [{inicio: '07:00', fin: '10:00' }, { inicio: '17:00', fin: '20:00'}]
+};

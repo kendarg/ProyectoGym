@@ -1,9 +1,9 @@
 import { Component } from "@angular/core";
 import { FormsModule } from '@angular/forms';
-import { entrenadores, fisioterapeutas, nutricionistas } from './booking.data';
+import { entrenadores, fisioterapeutas, nutricionistas, sauna } from './booking.data';
 
 interface ReservaTemporal {
-    tipoAtencion: 'coach' | 'fisio' | 'fit-diet';
+    tipoAtencion: 'coach' | 'fisio' | 'fit-diet' | 'sauna' | 'zumba' | 'box';
     profesionalId: number;
     profesionalNombre: string;
     fecha: string;
@@ -25,13 +25,13 @@ export class Booking {
     entrenadores = entrenadores;
     fisioterapeutas = fisioterapeutas;
     nutricionistas = nutricionistas;
+    sauna = sauna;
     fechaReserva = '';
     horaReserva = '';
     horasDisponibles: string[] = [];
     reservasTemporales: ReservaTemporal[] = [];
     mensajeConfirmacion = '';
     fechaMinima = new Date().toLocaleDateString('en-CA');
-
     confirmarReserva(): boolean {
         if (this.tipoAtencion === 'coach') {
             const entrenador = this.obtenerEntrenadorSeleccionado();
@@ -377,6 +377,7 @@ export class Booking {
     }
     limpiarFormulario() {
         this.entrenadorSeleccionado = '';
+        this.nutricionistaSeleccionado = '';
         this.fechaReserva = '';
         this.horaReserva = '';
         this.limpiarConfirmacion();
