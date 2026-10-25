@@ -85,3 +85,12 @@ export const sauna = {
     dias: ['lunes', 'miercoles', 'viernes'],
     horarios: [{inicio: '07:00', fin: '10:00' }, { inicio: '17:00', fin: '20:00'}]
 };
+
+
+export const zumba = {
+    duracionClase: 60,
+    descansoInstructor: 15,
+    capacidadPorClase: 20,
+    dias: ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'],
+    horarios: [{ inicio: '05:00', fin: '08:45' }, { inicio: '18:00', fin: '21:45' }]
+};

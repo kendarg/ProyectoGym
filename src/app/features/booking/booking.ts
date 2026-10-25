@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormsModule } from '@angular/forms';
-import { entrenadores, fisioterapeutas, nutricionistas, sauna } from './booking.data';
+import { entrenadores, fisioterapeutas, nutricionistas, sauna, zumba } from './booking.data';
 
 interface ReservaTemporal {
     tipoAtencion: 'coach' | 'fisio' | 'fit-diet' | 'sauna' | 'zumba' | 'box';
@@ -26,12 +26,14 @@ export class Booking {
     fisioterapeutas = fisioterapeutas;
     nutricionistas = nutricionistas;
     sauna = sauna;
+    zumba = zumba;
     fechaReserva = '';
     horaReserva = '';
     horasDisponibles: string[] = [];
     reservasTemporales: ReservaTemporal[] = [];
     mensajeConfirmacion = '';
     fechaMinima = new Date().toLocaleDateString('en-CA');
+
     confirmarReserva(): boolean {
         if (this.tipoAtencion === 'coach') {
             const entrenador = this.obtenerEntrenadorSeleccionado();
@@ -119,6 +121,65 @@ export class Booking {
                 `Reserva preparada correctamente para Fit-Diet. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Nutricionista: ${nutricionista.nombre}`;
+
+            return true;
+        }
+        if (this.tipoAtencion === 'sauna') {
+            if (
+                !this.fechaReserva ||
+                !this.validarDiaSauna() ||
+                !this.horaReserva ||
+                !this.generarTurnosSauna().includes(this.horaReserva) ||
+                this.cuposDisponiblesSauna(this.horaReserva) <= 0
+            ) {
+                this.mensajeConfirmacion =
+                    'Verifica la fecha, el turno y los cupos disponibles para Sauna.';
+                return false;
+            }
+
+            this.reservasTemporales.push({
+                tipoAtencion: 'sauna',
+                profesionalId: 0,
+                profesionalNombre: 'Sauna',
+                fecha: this.fechaReserva,
+                hora: this.horaReserva,
+                duracion: this.sauna.duracionTurno
+            });
+
+            this.mensajeConfirmacion =
+                `Reserva preparada correctamente para Sauna. ` +
+                `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
+                `Cupos restantes: ${this.cuposDisponiblesSauna(this.horaReserva)}`;
+
+            return true;
+        }
+
+        if (this.tipoAtencion === 'zumba') {
+            if (
+                !this.fechaReserva ||
+                !this.validarDiaZumba() ||
+                !this.horaReserva ||
+                !this.generarClasesZumba().includes(this.horaReserva) ||
+                this.cuposDisponiblesZumba(this.horaReserva) <= 0
+            ) {
+                this.mensajeConfirmacion =
+                    'Verifica la fecha, la clase y los cupos disponibles para Zumba.';
+                return false;
+            }
+
+            this.reservasTemporales.push({
+                tipoAtencion: 'zumba',
+                profesionalId: 0,
+                profesionalNombre: 'Instructor de Zumba',
+                fecha: this.fechaReserva,
+                hora: this.horaReserva,
+                duracion: this.zumba.duracionClase
+            });
+
+            this.mensajeConfirmacion =
+                `Reserva preparada correctamente para Zumba. ` +
+                `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
+                `Cupos restantes: ${this.cuposDisponiblesZumba(this.horaReserva)}`;
 
             return true;
         }
@@ -370,6 +431,111 @@ export class Booking {
 
             return inicioNuevo < finExistente && finNuevo > inicioExistente;
         });
+    }
+
+    validarDiaSauna(): boolean {
+        if (!this.fechaReserva) {
+            return false;
+        }
+
+        const fecha = new Date(this.fechaReserva + 'T12:00:00');
+        const diasSemana = ['domingo', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado'];
+        return this.sauna.dias.includes(diasSemana[fecha.getDay()]);
+    }
+
+    generarTurnosSauna(): string[] {
+        if (!this.fechaReserva || !this.validarDiaSauna()) {
+            return [];
+        }
+        const turnos: string[] = [];
+
+        for (const horario of this.sauna.horarios) {
+            const [horaInicio, minutosInicio] = horario.inicio.split(':').map(Number);
+            const [horaFin, minutosFin] = horario.fin.split(':').map(Number);
+
+            const inicio = horaInicio * 60 + minutosInicio;
+            const fin = horaFin * 60 + minutosFin;
+
+            for (let minutos = inicio; minutos + this.sauna.duracionTurno <= fin;
+                minutos += this.sauna.duracionTurno
+            ) {
+                const hora = Math.floor(minutos / 60).toString().padStart(2, '0');
+                const minuto = (minutos % 60).toString().padStart(2, '0');
+                const turno = `${hora}:${minuto}`;
+
+                if (this.cuposDisponiblesSauna(turno) > 0) {
+                    turnos.push(turno);
+                }
+            }
+        }
+
+        return turnos;
+    }
+
+    cuposDisponiblesSauna(turno: string): number {
+        const reservas = this.reservasTemporales.filter(reserva =>
+            reserva.tipoAtencion === 'sauna' &&
+            reserva.fecha === this.fechaReserva &&
+            reserva.hora === turno).length;
+
+        return Math.max(0, this.sauna.capacidadPorTurno - reservas);
+    }
+
+    validarDiaZumba(): boolean {
+        if (!this.fechaReserva) {
+            return false;
+        }
+
+        const fecha = new Date(this.fechaReserva + 'T12:00:00');
+        const diasSemana = [
+            'domingo', 'lunes', 'martes', 'miercoles',
+            'jueves', 'viernes', 'sabado'
+        ];
+
+        return this.zumba.dias.includes(diasSemana[fecha.getDay()]);
+    }
+
+    generarClasesZumba(): string[] {
+        if (!this.fechaReserva || !this.validarDiaZumba()) {
+            return [];
+        }
+
+        const clases: string[] = [];
+
+        for (const horario of this.zumba.horarios) {
+            const [horaInicio, minutosInicio] = horario.inicio.split(':').map(Number);
+            const [horaFin, minutosFin] = horario.fin.split(':').map(Number);
+
+            const inicio = horaInicio * 60 + minutosInicio;
+            const fin = horaFin * 60 + minutosFin;
+            const duracionTotal = this.zumba.duracionClase + this.zumba.descansoInstructor;
+
+            for (
+                let minutos = inicio;
+                minutos + this.zumba.duracionClase <= fin;
+                minutos += duracionTotal
+            ) {
+                const hora = Math.floor(minutos / 60).toString().padStart(2, '0');
+                const minuto = (minutos % 60).toString().padStart(2, '0');
+                const clase = `${hora}:${minuto}`;
+
+                if (this.cuposDisponiblesZumba(clase) > 0) {
+                    clases.push(clase);
+                }
+            }
+        }
+
+        return clases;
+    }
+
+    cuposDisponiblesZumba(hora: string): number {
+        const reservas = this.reservasTemporales.filter(reserva =>
+            reserva.tipoAtencion === 'zumba' &&
+            reserva.fecha === this.fechaReserva &&
+            reserva.hora === hora
+        ).length;
+
+        return Math.max(0, this.zumba.capacidadPorClase - reservas);
     }
 
     limpiarConfirmacion() {

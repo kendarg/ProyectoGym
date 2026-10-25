@@ -141,10 +141,12 @@
             </div>
             <div class="modal-body">
                 <form #formularioReserva="ngForm" (ngSubmit)="confirmarReserva() && (modalAbierto = false)">
+                    <!-- ================================================
+                                    FORMULARIO COACH
+                         ================================================ -->
                     @if (tipoAtencion === 'coach') {
                     <div class="form-field">
                         <label for="entrenador">Selecciona tu entrenador</label>
-
                         <select id="entrenador" name="entrenador" class="form-select"
                             [(ngModel)]="entrenadorSeleccionado" (ngModelChange)="limpiarSeleccionHorario()" required>
 
@@ -171,7 +173,9 @@
                         }
                     </div>
                     }
-
+                    <!-- ================================================
+                                    FORMULARIO FIT-DIET
+                         ================================================ -->
                     @if (tipoAtencion === 'fit-diet') {
                     <div class="form-field">
                         <label for="nutricionista">Selecciona tu nutricionista</label>
@@ -199,7 +203,48 @@
                         }
                     </div>
                     }
+                    <!-- ================================================
+                                    FORMULARIO SAUNA
+                         ================================================ -->
+                    @if (tipoAtencion === 'sauna') {
+                    <div class="form-field">
+                        <p><strong>Duración:</strong> {{ sauna.duracionTurno }} minutos</p>
+                        <p><strong>Capacidad:</strong> {{ sauna.capacidadPorTurno }} personas por turno</p>
+                        <p><strong>Días disponibles:</strong> {{ sauna.dias.join(', ') }}</p>
+                        <p><strong>Horarios:</strong></p>
+                        <ul>
+                            @for (horario of sauna.horarios; track horario.inicio) {
+                            <li>{{ horario.inicio }} - {{ horario.fin }}</li>
+                            }
+                        </ul>
 
+                        @if (fechaReserva && !validarDiaSauna()) {
+                        <p class="text-danger">
+                            Sauna solo está disponible los lunes, miércoles y viernes.
+                            Selecciona otra fecha.
+                        </p>
+                        }
+                    </div>
+                    }
+                    <!-- FORMULARIO ZUMBA -->
+                    @if (tipoAtencion === 'zumba') {
+                    <div class="form-field">
+                        <p><strong>Duración:</strong> {{ zumba.duracionClase }} minutos</p>
+                        <p><strong>Descanso del instructor:</strong> {{ zumba.descansoInstructor }} minutos</p>
+                        <p><strong>Capacidad:</strong> {{ zumba.capacidadPorClase }} personas por clase</p>
+                        <p><strong>Días disponibles:</strong> {{ zumba.dias.join(', ') }}</p>
+
+                        @if (fechaReserva && !validarDiaZumba()) {
+                        <p class="text-danger">
+                            Zumba solo está disponible de lunes a viernes.
+                            Selecciona otra fecha.
+                        </p>
+                        }
+                    </div>
+                    }
+                    <!-- ================================================
+                                    FORMULARIO FECHA Y HORA
+                         ================================================ -->
                     <p>Selecciona la fecha y hora que prefieres.</p>
                     <div class="form-field">
                         <label for="fecha">Fecha de la reserva</label>
@@ -226,7 +271,28 @@
                             <option [value]="hora">{{ hora }}</option>
                             }
                         </select>
-                        } @else {
+                        }@else if (tipoAtencion === 'sauna') {
+                        <select id="hora" name="hora" class="form-select" [(ngModel)]="horaReserva"
+                            (ngModelChange)="limpiarConfirmacion()" required>
+                            <option value="" disabled>Selecciona un turno disponible</option>
+                            @for (hora of generarTurnosSauna(); track hora) {
+                            <option [value]="hora">
+                                {{ hora }} — {{ cuposDisponiblesSauna(hora) }} cupos disponibles
+                            </option>
+                            }
+                        </select>
+                        }@else if (tipoAtencion === 'zumba') {
+                        <select id="hora" name="hora" class="form-select" [(ngModel)]="horaReserva"
+                            (ngModelChange)="limpiarConfirmacion()" required>
+                            <option value="" disabled>Selecciona una clase disponible</option>
+
+                            @for (hora of generarClasesZumba(); track hora) {
+                            <option [value]="hora">
+                                {{ hora }} — {{ cuposDisponiblesZumba(hora) }} cupos disponibles
+                            </option>
+                            }
+                        </select>
+                        }@else {
                         <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva"
                             (ngModelChange)="limpiarConfirmacion()" required />
                         }
@@ -248,7 +314,13 @@
                         || (tipoAtencion === 'coach' && !validarHoraEntrenador()) 
                         || (tipoAtencion === 'fit-diet' && !validarDiaNutricionista())
                         || (tipoAtencion === 'fit-diet' && !validarHoraNutricionista())
-                        || (tipoAtencion === 'fit-diet' && horarioNutricionistaOcupado(horaReserva))">
+                        || (tipoAtencion === 'fit-diet' && horarioNutricionistaOcupado(horaReserva))
+                        || (tipoAtencion === 'sauna' && !validarDiaSauna())
+                        || (tipoAtencion === 'sauna' && !generarTurnosSauna().includes(horaReserva))
+                        || (tipoAtencion === 'sauna' && cuposDisponiblesSauna(horaReserva) <= 0)
+                        || (tipoAtencion === 'zumba' && !validarDiaZumba())
+                        || (tipoAtencion === 'zumba' && !generarClasesZumba().includes(horaReserva))
+                        || (tipoAtencion === 'zumba' && cuposDisponiblesZumba(horaReserva) <= 0)">
                             Confirmar reserva
                         </button>
                     </div>
@@ -271,8 +343,13 @@
     <div class="card mb-3">
         <div class="card-body">
             <h3 class="card-title">
-                Reserva de {{ reserva.tipoAtencion === 'coach' ? 'Coach' 
-                : reserva.tipoAtencion === 'fisio' ? 'Fisio' : 'Fit-Diet'}}
+                Reserva de {{
+                reserva.tipoAtencion === 'coach' ? 'Coach' :
+                reserva.tipoAtencion === 'fisio' ? 'Fisio' :
+                reserva.tipoAtencion === 'sauna' ? 'Sauna' :
+                reserva.tipoAtencion === 'fit-diet' ? 'Fit-Diet' :
+                reserva.tipoAtencion === 'zumba' ? 'Zumba' : 'Box'
+                }}
             </h3>
             <p>Profesional: {{ reserva.profesionalNombre }}</p>
             <p>Fecha: {{ reserva.fecha }}</p>
