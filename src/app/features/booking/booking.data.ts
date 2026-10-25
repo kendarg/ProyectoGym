@@ -86,11 +86,37 @@ export const sauna = {
     horarios: [{inicio: '07:00', fin: '10:00' }, { inicio: '17:00', fin: '20:00'}]
 };
 
-
 export const zumba = {
     duracionClase: 60,
     descansoInstructor: 15,
     capacidadPorClase: 20,
     dias: ['lunes', 'martes', 'miercoles', 'jueves', 'viernes'],
     horarios: [{ inicio: '05:00', fin: '08:45' }, { inicio: '18:00', fin: '21:45' }]
+};
+
+export const entrenadoresBox = [
+  {
+    id: 1,
+    nombre: 'Santiago Ramírez',
+    especialidad: 'Boxeo técnico y acondicionamiento'
+  },
+  {
+    id: 2,
+    nombre: 'Valentina Cruz',
+    especialidad: 'Técnica, defensa y velocidad'
+  },
+  {
+    id: 3,
+    nombre: 'Nicolás Torres',
+    especialidad: 'Potencia, resistencia y preparación física'
+  }
+];
+
+export const box = {
+  duracionSesion: 60,
+  capacidadGrupal: 10,
+  diasGrupales: ['viernes', 'sabado', 'domingo'],
+  horarioGrupal: {inicio: '16:00', fin: '21:00'},
+  diasIndividuales: ['sabado'],
+  horarioIndividual: {inicio: '10:00', fin: '14:00'}
 };

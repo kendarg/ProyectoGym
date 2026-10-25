@@ -226,7 +226,9 @@
                         }
                     </div>
                     }
-                    <!-- FORMULARIO ZUMBA -->
+                    <!-- ================================================
+                                        FORMULARIO ZUMBA
+                         ================================================ -->
                     @if (tipoAtencion === 'zumba') {
                     <div class="form-field">
                         <p><strong>Duración:</strong> {{ zumba.duracionClase }} minutos</p>
@@ -242,6 +244,51 @@
                         }
                     </div>
                     }
+                    <!-- ================================================
+                                        FORMULARIO BOX
+                         ================================================ -->
+                    @if (tipoAtencion === 'box') {
+                    <div class="form-field">
+                        <label for="modalidadBox">Modalidad de Box</label>
+                        <select id="modalidadBox" name="modalidadBox" class="form-select" [(ngModel)]="modalidadBox"
+                            (ngModelChange)="limpiarSeleccionHorario()" required>
+                            <option value="grupal">Clase grupal</option>
+                            <option value="individual">Sesión individual</option>
+                        </select>
+
+                        <p><strong>Duración:</strong> {{ box.duracionSesion }} minutos</p>
+
+                        @if (modalidadBox === 'grupal') {
+                        <p><strong>Capacidad:</strong> {{ box.capacidadGrupal }} personas</p>
+                        <p><strong>Días:</strong> viernes, sábado y domingo</p>
+                        <p><strong>Horario:</strong> 16:00 a 21:00</p>
+                        } @else {
+                        <p><strong>Día:</strong> sábado</p>
+                        <p><strong>Horario:</strong> 10:00 a 14:00</p>
+
+                        <label for="entrenadorBox">Selecciona tu entrenador</label>
+                        <select id="entrenadorBox" name="entrenadorBox" class="form-select"
+                            [(ngModel)]="entrenadorBoxSeleccionado" (ngModelChange)="limpiarSeleccionHorario()"
+                            required>
+                            <option value="" disabled>Elige un entrenador</option>
+
+                            @for (entrenador of entrenadoresBox; track entrenador.id) {
+                            <option [value]="entrenador.id">
+                                {{ entrenador.nombre }} — {{ entrenador.especialidad }}
+                            </option>
+                            }
+                        </select>
+                        }
+
+                        @if (fechaReserva && !validarDiaBox()) {
+                        <p class="text-danger">
+                            La fecha seleccionada no corresponde a los días disponibles
+                            para esta modalidad de Box.
+                        </p>
+                        }
+                    </div>
+                    }
+
                     <!-- ================================================
                                     FORMULARIO FECHA Y HORA
                          ================================================ -->
@@ -292,6 +339,21 @@
                             </option>
                             }
                         </select>
+                        }
+                        @else if (tipoAtencion === 'box') {
+                        <select id="hora" name="hora" class="form-select" [(ngModel)]="horaReserva"
+                            (ngModelChange)="limpiarConfirmacion()" required>
+                            <option value="" disabled>Selecciona un horario disponible</option>
+
+                            @for (hora of generarHorariosBox(); track hora) {
+                            <option [value]="hora">
+                                {{ hora }}
+                                @if (modalidadBox === 'grupal') {
+                                — {{ cuposDisponiblesBox(hora) }} cupos disponibles
+                                }
+                            </option>
+                            }
+                        </select>
                         }@else {
                         <input type="time" id="hora" name="hora" [(ngModel)]="horaReserva"
                             (ngModelChange)="limpiarConfirmacion()" required />
@@ -320,7 +382,15 @@
                         || (tipoAtencion === 'sauna' && cuposDisponiblesSauna(horaReserva) <= 0)
                         || (tipoAtencion === 'zumba' && !validarDiaZumba())
                         || (tipoAtencion === 'zumba' && !generarClasesZumba().includes(horaReserva))
-                        || (tipoAtencion === 'zumba' && cuposDisponiblesZumba(horaReserva) <= 0)">
+                        || (tipoAtencion === 'zumba' && cuposDisponiblesZumba(horaReserva) <= 0)
+                        || (tipoAtencion === 'box' && !validarDiaBox())
+                        || (tipoAtencion === 'box' && !generarHorariosBox().includes(horaReserva))
+                        || (tipoAtencion === 'box' && modalidadBox === 'grupal'
+                            && cuposDisponiblesBox(horaReserva) <= 0)
+                        || (tipoAtencion === 'box' && modalidadBox === 'individual'
+                            && !entrenadorBoxSeleccionado)
+                        || (tipoAtencion === 'box' && modalidadBox === 'individual'
+                            && entrenadorBoxSeleccionadoOcupado())">
                             Confirmar reserva
                         </button>
                     </div>

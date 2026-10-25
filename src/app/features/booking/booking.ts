@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { FormsModule } from '@angular/forms';
-import { entrenadores, fisioterapeutas, nutricionistas, sauna, zumba } from './booking.data';
+import { entrenadores, fisioterapeutas, nutricionistas, sauna, zumba, entrenadoresBox, box } from './booking.data';
 
 interface ReservaTemporal {
     tipoAtencion: 'coach' | 'fisio' | 'fit-diet' | 'sauna' | 'zumba' | 'box';
@@ -9,6 +9,7 @@ interface ReservaTemporal {
     fecha: string;
     hora: string;
     duracion: number;
+    modalidadBox?: 'grupal' | 'individual';
 }
 
 @Component({
@@ -27,6 +28,10 @@ export class Booking {
     nutricionistas = nutricionistas;
     sauna = sauna;
     zumba = zumba;
+    entrenadoresBox = entrenadoresBox;
+    box = box;
+    modalidadBox: 'grupal' | 'individual' = 'grupal';
+    entrenadorBoxSeleccionado = '';
     fechaReserva = '';
     horaReserva = '';
     horasDisponibles: string[] = [];
@@ -180,6 +185,102 @@ export class Booking {
                 `Reserva preparada correctamente para Zumba. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Cupos restantes: ${this.cuposDisponiblesZumba(this.horaReserva)}`;
+
+            return true;
+        }
+
+        if (this.tipoAtencion === 'box') {
+            if (
+                !this.fechaReserva ||
+                !this.validarDiaBox() ||
+                !this.horaReserva ||
+                !this.generarHorariosBox().includes(this.horaReserva)
+            ) {
+                this.mensajeConfirmacion =
+                    'Verifica la fecha, la modalidad y el horario disponible para Box.';
+                return false;
+            }
+
+            const reservasHorario = this.reservasTemporales.filter(
+                reserva =>
+                    reserva.tipoAtencion === 'box' &&
+                    reserva.fecha === this.fechaReserva &&
+                    reserva.hora === this.horaReserva
+            );
+
+            if (this.modalidadBox === 'grupal') {
+                if (this.cuposDisponiblesBox(this.horaReserva) <= 0) {
+                    this.mensajeConfirmacion =
+                        'La clase grupal ya alcanzó su capacidad máxima.';
+                    return false;
+                }
+
+                // Los participantes de una misma clase comparten entrenador.
+                const claseExistente = reservasHorario.find(
+                    reserva => reserva.modalidadBox === 'grupal'
+                );
+
+                const entrenador = claseExistente
+                    ? this.entrenadoresBox.find(
+                        item => item.id === claseExistente.profesionalId
+                    )
+                    : this.obtenerEntrenadorBoxDisponible();
+
+                if (!entrenador) {
+                    this.mensajeConfirmacion =
+                        'No hay entrenadores disponibles para esa clase.';
+                    return false;
+                }
+
+                this.reservasTemporales.push({
+                    tipoAtencion: 'box',
+                    modalidadBox: 'grupal',
+                    profesionalId: entrenador.id,
+                    profesionalNombre: entrenador.nombre,
+                    fecha: this.fechaReserva,
+                    hora: this.horaReserva,
+                    duracion: this.box.duracionSesion
+                });
+
+                this.mensajeConfirmacion =
+                    `Reserva grupal de Box preparada correctamente. ` +
+                    `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
+                    `Entrenador: ${entrenador.nombre}. ` +
+                    `Cupos restantes: ${this.cuposDisponiblesBox(this.horaReserva)}`;
+
+                return true;
+            }
+
+            const entrenador = this.entrenadoresBox.find(
+                item => item.id === Number(this.entrenadorBoxSeleccionado)
+            );
+
+            if (
+                !entrenador ||
+                this.entrenadorBoxOcupado(
+                    entrenador.id,
+                    this.horaReserva
+                )
+            ) {
+                this.mensajeConfirmacion =
+                    'El entrenador seleccionado no está disponible en ese horario.';
+                return false;
+            }
+
+            this.reservasTemporales.push({
+                tipoAtencion: 'box',
+                modalidadBox: 'individual',
+                profesionalId: entrenador.id,
+                profesionalNombre: entrenador.nombre,
+                fecha: this.fechaReserva,
+                hora: this.horaReserva,
+                duracion: this.box.duracionSesion
+            });
+
+            this.mensajeConfirmacion =
+                `Reserva individual de Box preparada correctamente. ` +
+                `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
+                `Entrenador: ${entrenador.nombre}`;
 
             return true;
         }
@@ -538,12 +639,161 @@ export class Booking {
         return Math.max(0, this.zumba.capacidadPorClase - reservas);
     }
 
+    validarDiaBox(): boolean {
+        if (!this.fechaReserva) return false;
+
+        const fecha = new Date(this.fechaReserva + 'T12:00:00');
+        const dias = [
+            'domingo', 'lunes', 'martes', 'miercoles',
+            'jueves', 'viernes', 'sabado'
+        ];
+        const dia = dias[fecha.getDay()];
+
+        return this.modalidadBox === 'grupal'
+            ? this.box.diasGrupales.includes(dia)
+            : this.box.diasIndividuales.includes(dia);
+    }
+
+    generarHorariosBox(): string[] {
+        if (!this.fechaReserva || !this.validarDiaBox()) {
+            return [];
+        }
+
+        const horario = this.modalidadBox === 'grupal'
+            ? this.box.horarioGrupal
+            : this.box.horarioIndividual;
+
+        const [inicioH, inicioM] = horario.inicio.split(':').map(Number);
+        const [finH, finM] = horario.fin.split(':').map(Number);
+        const inicio = inicioH * 60 + inicioM;
+        const fin = finH * 60 + finM;
+        const horas: string[] = [];
+
+        for (
+            let minutos = inicio;
+            minutos + this.box.duracionSesion <= fin;
+            minutos += 60
+        ) {
+            const hora = `${Math.floor(minutos / 60)
+                .toString().padStart(2, '0')}:${(minutos % 60)
+                    .toString().padStart(2, '0')}`;
+
+            if (this.modalidadBox === 'grupal') {
+                if (this.cuposDisponiblesBox(hora) > 0 &&
+                    (this.entrenadorBoxDeClase(hora) ||
+                        this.obtenerEntrenadorBoxDisponible(hora))) {
+                    horas.push(hora);
+                }
+            } else if (
+                this.entrenadoresBox.some(
+                    entrenador =>
+                        !this.entrenadorBoxOcupado(entrenador.id, hora)
+                )
+            ) {
+                horas.push(hora);
+            }
+        }
+
+        return horas;
+    }
+
+    cuposDisponiblesBox(hora: string): number {
+        const ocupadas = this.reservasTemporales.filter(
+            reserva =>
+                reserva.tipoAtencion === 'box' &&
+                reserva.modalidadBox === 'grupal' &&
+                reserva.fecha === this.fechaReserva &&
+                reserva.hora === hora
+        ).length;
+
+        return Math.max(0, this.box.capacidadGrupal - ocupadas);
+    }
+
+    entrenadorBoxDeClase(hora: string) {
+        const reserva = this.reservasTemporales.find(
+            item =>
+                item.tipoAtencion === 'box' &&
+                item.modalidadBox === 'grupal' &&
+                item.fecha === this.fechaReserva &&
+                item.hora === hora
+        );
+
+        return this.entrenadoresBox.find(
+            entrenador => entrenador.id === reserva?.profesionalId
+        );
+    }
+
+    obtenerEntrenadorBoxDisponible(hora: string = this.horaReserva) {
+        const disponibles = this.entrenadoresBox.filter(
+            entrenador =>
+                !this.entrenadorBoxOcupado(entrenador.id, hora)
+        );
+
+        if (!disponibles.length) {
+            return undefined;
+        }
+
+        return disponibles[
+            Math.floor(Math.random() * disponibles.length)
+        ];
+    }
+
+    entrenadorBoxOcupado(
+        entrenadorId: number,
+        hora: string
+    ): boolean {
+        if (!this.fechaReserva || !hora) return false;
+
+        const [horaNueva, minutoNuevo] = hora.split(':').map(Number);
+        const inicioNuevo = horaNueva * 60 + minutoNuevo;
+        const finNuevo = inicioNuevo + this.box.duracionSesion;
+
+        return this.reservasTemporales.some(reserva => {
+            if (
+                reserva.tipoAtencion !== 'box' ||
+                reserva.profesionalId !== entrenadorId ||
+                reserva.fecha !== this.fechaReserva
+            ) {
+                return false;
+            }
+
+            // Solo se permite compartir entrenador dentro de la misma clase grupal.
+            if (
+                reserva.modalidadBox === 'grupal' &&
+                this.modalidadBox === 'grupal' &&
+                reserva.hora === hora
+            ) {
+                return false;
+            }
+
+            const [horaExistente, minutoExistente] =
+                reserva.hora.split(':').map(Number);
+
+            const inicioExistente = horaExistente * 60 + minutoExistente;
+            const finExistente = inicioExistente + reserva.duracion;
+
+            return inicioNuevo < finExistente &&
+                finNuevo > inicioExistente;
+        });
+    }
+    entrenadorBoxSeleccionadoOcupado(): boolean {
+        if (!this.entrenadorBoxSeleccionado || !this.horaReserva) {
+            return false;
+        }
+
+        return this.entrenadorBoxOcupado(
+            Number(this.entrenadorBoxSeleccionado),
+            this.horaReserva
+        );
+    }
     limpiarConfirmacion() {
         this.mensajeConfirmacion = '';
     }
     limpiarFormulario() {
         this.entrenadorSeleccionado = '';
         this.nutricionistaSeleccionado = '';
+        this.entrenadorBoxSeleccionado = '';
+        this.modalidadBox = 'grupal';
         this.fechaReserva = '';
         this.horaReserva = '';
         this.limpiarConfirmacion();
