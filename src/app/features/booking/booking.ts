@@ -1,10 +1,11 @@
 import { Component } from "@angular/core";
 import { FormsModule } from '@angular/forms';
-import { entrenadores } from './booking.data';
+import { entrenadores, fisioterapeutas } from './booking.data';
 
 interface ReservaTemporal {
-    entrenadorId: number;
-    entrenadorNombre: string;
+    tipoAtencion: 'coach' | 'fisio';
+    profesionalId: number;
+    profesionalNombre: string;
     fecha: string;
     hora: string;
     duracion: number;
@@ -21,13 +22,14 @@ export class Booking {
     modalAbierto = false;
     entrenadorSeleccionado = '';
     entrenadores = entrenadores;
+    fisioterapeutas = fisioterapeutas;
     fechaReserva = '';
     horaReserva = '';
     horasDisponibles: string[] = [];
     reservasTemporales: ReservaTemporal[] = [];
     mensajeConfirmacion = '';
     fechaMinima = new Date().toLocaleDateString('en-CA');
-    confirmarReserva() {
+    confirmarReserva(): boolean {
         if (this.tipoAtencion === 'coach') {
             const entrenador = this.obtenerEntrenadorSeleccionado();
 
@@ -35,12 +37,13 @@ export class Booking {
                 || !this.validarHoraEntrenador() || this.horarioOcupado(this.horaReserva)) {
                 this.mensajeConfirmacion =
                     'Verifica el entrenador, la fecha y la disponibilidad del horario.';
-                return;
+                return false;
             }
 
             this.reservasTemporales.push({
-                entrenadorId: entrenador.id,
-                entrenadorNombre: entrenador.nombre,
+                tipoAtencion: 'coach',
+                profesionalId: entrenador.id,
+                profesionalNombre: entrenador.nombre,
                 fecha: this.fechaReserva,
                 hora: this.horaReserva,
                 duracion: entrenador.duracionSesion
@@ -56,14 +59,66 @@ export class Booking {
         this.mensajeConfirmacion =
             `Reserva preparada correctamente para ${this.tipoAtencion}. ` +
             `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}.` +
-            (this.tipoAtencion === 'coach'
-                ? ` Entrenador: ${nombreEntrenador}`
-                : '');
+            (this.tipoAtencion === 'coach' ? ` Entrenador: ${nombreEntrenador}` : '');
+        return true;
     }
     obtenerEntrenadorSeleccionado() {
         return this.entrenadores.find(
             entrenador => entrenador.id === Number(this.entrenadorSeleccionado)
         );
+    }
+
+    obtenerFisioterapeutaDisponible() {
+        if (!this.fechaReserva || !this.horaReserva) {
+            return undefined;
+        }
+
+        const fecha = new Date(this.fechaReserva + 'T12:00:00');
+        const diasSemana = [
+            'domingo', 'lunes', 'martes', 'miercoles',
+            'jueves', 'viernes', 'sabado'
+        ];
+        const diaSeleccionado = diasSemana[fecha.getDay()];
+
+        const [hora, minutos] = this.horaReserva.split(':').map(Number);
+        const inicioNuevo = hora * 60 + minutos;
+
+        return this.fisioterapeutas.find(fisio => {
+            if (!fisio.dias.includes(diaSeleccionado)) {
+                return false;
+            }
+
+            const [inicioHora, inicioMinutos] = fisio.horaInicio.split(':').map(Number);
+            const inicioJornada = inicioHora * 60 + inicioMinutos;
+
+            const [finHora, finMinutos] = fisio.horaFin.split(':').map(Number);
+            const finJornada = finHora * 60 + finMinutos;
+
+            const finNuevo = inicioNuevo + fisio.duracionSesion;
+
+            if (inicioNuevo < inicioJornada || finNuevo > finJornada) {
+                return false;
+            }
+
+            return !this.reservasTemporales.some(reserva => {
+                if (
+                    reserva.tipoAtencion !== 'fisio' ||
+                    reserva.profesionalId !== fisio.id ||
+                    reserva.fecha !== this.fechaReserva
+                ) {
+                    return false;
+                }
+
+                const [horaExistente, minutosExistentes] =
+                    reserva.hora.split(':').map(Number);
+
+                const inicioExistente = horaExistente * 60 + minutosExistentes;
+                const finExistente = inicioExistente + reserva.duracion;
+
+                return inicioNuevo < finExistente &&
+                    finNuevo > inicioExistente;
+            });
+        });
     }
 
     validarDiaEntrenador(): boolean {
@@ -77,6 +132,7 @@ export class Booking {
 
         return entrenador.dias.includes(diaSeleccionado);
     }
+
     validarHoraEntrenador(): boolean {
         const entrenador = this.obtenerEntrenadorSeleccionado();
         if (!entrenador || !this.horaReserva) {
@@ -96,6 +152,7 @@ export class Booking {
             minutosSeleccionados + entrenador.duracionSesion <= fin &&
             minutosSeleccionados % entrenador.duracionSesion === 0;
     }
+
     generarHorasDisponibles(): string[] {
         const entrenador = this.obtenerEntrenadorSeleccionado();
         if (!entrenador || !this.fechaReserva || !this.validarDiaEntrenador()) {
@@ -126,6 +183,7 @@ export class Booking {
 
         return horas;
     }
+
     horarioOcupado(hora: string): boolean {
         const entrenador = this.obtenerEntrenadorSeleccionado();
 
@@ -139,7 +197,8 @@ export class Booking {
 
         return this.reservasTemporales.some(reserva => {
             if (
-                reserva.entrenadorId !== entrenador.id ||
+                reserva.tipoAtencion !== 'coach' ||
+                reserva.profesionalId !== entrenador.id ||
                 reserva.fecha !== this.fechaReserva
             ) {
                 return false;
@@ -153,6 +212,7 @@ export class Booking {
                 finNuevo > inicioExistente;
         });
     }
+    
     limpiarConfirmacion() {
         this.mensajeConfirmacion = '';
     }

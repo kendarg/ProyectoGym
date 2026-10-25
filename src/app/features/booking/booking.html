@@ -140,7 +140,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form #formularioReserva="ngForm" (ngSubmit)="confirmarReserva(); modalAbierto = false">
+                <form #formularioReserva="ngForm" (ngSubmit)="confirmarReserva() && (modalAbierto = false)">
                     @if (tipoAtencion === 'coach') {
                     <div class="form-field">
                         <label for="entrenador">Selecciona tu entrenador</label>
@@ -227,8 +227,10 @@
         @for (reserva of reservasTemporales; track $index) {
             <div class="card mb-3">
                 <div class="card-body">
-                    <h3 class="card-title">Reserva de Coach</h3>
-                    <p>Entrenador: {{ reserva.entrenadorNombre }}</p>
+                    <h3 class="card-title">
+                        Reserva de {{ reserva.tipoAtencion === 'coach' ? 'Coach' : 'Fisio' }}
+                    </h3>
+                    <p>Profesional: {{ reserva.profesionalNombre }}</p>
                     <p>Fecha: {{ reserva.fecha }}</p>
                     <p>Hora: {{ reserva.hora }}</p>
                     <p>Duración: {{ reserva.duracion }} minutos</p>
