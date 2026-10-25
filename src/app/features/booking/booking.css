@@ -1,177 +1,501 @@
-:root{
-    --color-uno: #D4D6D3;
-    --color-dos: #F50203;
-    --color-tres: #0C1113;
-    --color-cuatro: #1C2123;
-    --color-cinco: #4A4F50;
-    --color-seis: #F7F7F7;
+:host {
+    --color-fondo-principal: #0C1113;
+    --color-fondo-tarjeta: #1C2123;
+    --color-acento: #F50203;
+
+    --color-texto-principal: #F7F7F7;
+    --color-texto-secundario: #D4D6D3;
+
+    --color-borde: #4A4F50;
+
+    --sombra-tarjeta: 0 8px 24px rgba(0, 0, 0, 0.28);
+    --sombra-tarjeta-hover: 0 14px 32px rgba(0, 0, 0, 0.42);
+    --transicion-suave: 0.25s ease;
 }
 
 .booking-container {
-    background-color: #08252D;
+    min-height: 100vh;
+    padding: 3rem 1rem;
     text-align: center;
-    padding: 2rem;
-}
-
-.booking-options {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    background-color: #064C58;
+    color: var(--color-texto-principal);
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(74, 79, 80, 0.22),
+            transparent 65%
+        ),
+        var(--color-fondo-principal);
 }
 
 .booking-container h1 {
-    color: #7FDEE2;
+    margin-bottom: 0.75rem;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
 }
 
-.booking-container p {
-    color: #DFFBCA;
+.booking-container > p {
+    margin-bottom: 0;
+    color: var(--color-texto-secundario);
+    font-size: 1.05rem;
 }
 
-.booking-options button {
-    background-color: #74CD59;
-    padding: 1rem;
-    cursor: pointer;
-}
 
-.booking-form {
-    margin: 2rem auto;
-    max-width: 500px;
-    padding: 1.5rem;
-    border-radius: 12px;
-    background-color: #064C58;
-}
-
-.booking-form h2 {
-    color: #7FDEE2;
-}
-
-.booking-form p {
-    color: #DFFBCA;
-}
-
-.form-field {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 1rem;
-    text-align: left;
-}
-
-.form-field label {
-    color: #DFFBCA;
-}
-
-.form-field input {
-    padding: 0.75rem;
-    border: 1px solid #74CD59;
-    border-radius: 6px;
-    font: inherit;
-}
-
-.booking-form button[type="submit"] {
-    margin-top: 1.25rem;
-    padding: 0.75rem 1.25rem;
-    border: none;
-    border-radius: 6px;
-    background-color: #74CD59;
-    color: #08252D;
-    font: inherit;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.booking-form button[type="submit"]:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-}
-
-.confirmation-message {
-    margin-top: 1rem;
-    padding: 1rem;
-    border-radius: 6px;
-    background-color: #08252D;
-    color: #DFFBCA;
-    overflow-wrap: anywhere;
-}
-
-/* Tarjetas de servicios */
+/* TARJETAS DE SERVICIOS */
 .booking-container .card {
-    background-color: #064C58;
-    color: #DFFBCA;
-    border: 1px solid #16717A;
-    border-radius: 14px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 100%;
+    min-height: 190px;
+    overflow: hidden;
+    color: var(--color-texto-principal);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(74, 79, 80, 0.16),
+            transparent 55%
+        ),
+        var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: 16px;
+    box-shadow: var(--sombra-tarjeta);
+    transition:
+        transform var(--transicion-suave),
+        box-shadow var(--transicion-suave),
+        border-color var(--transicion-suave);
 }
 
 .booking-container .card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    border-color: var(--color-acento);
+    box-shadow: var(--sombra-tarjeta-hover);
+}
+
+/* IMAGEN A LA DERECHA */
+.booking-card-img {
+    order: 2;
+    display: block;
+    flex: 0 0 38%;
+    width: 38%;
+    height: auto;
+    min-height: 190px;
+    object-fit: cover;
+    border: 0;
+    border-left: 1px solid var(--color-borde);
+    transition: transform 0.4s ease;
+}
+
+.booking-container .card:hover .booking-card-img {
+    transform: scale(1.03);
+}
+
+/* FORMAS GEOMÉTRICAS DE LAS IMÁGENES */
+.booking-card-img {
+    border: none;
+    border-left: 1px solid var(--color-borde);
+    clip-path: none;
+}
+
+/* Coach: triángulo rectángulo */
+.booking-img-coach {
+    clip-path: polygon( 100% -100%, 100% 100%, 0 100%);
+}
+
+/* Fisio: rombo */
+.booking-img-fisio {
+    clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+}
+
+/* Sauna: paralelogramo */
+.booking-img-sauna {
+    clip-path: polygon(25% 0, 100% 0, 75% 100%, 0 100%);
+}
+
+/* Fit-Diet: triángulo con punta hacia la izquierda */
+.booking-img-fit-diet {
+    clip-path: polygon(
+        25% 0, 75% 0,
+        100% 25%, 100% 75%,
+        75% 100%, 25% 100%,
+        0 75%, 0 25%
+    );
+}
+
+/* Zumba: recorte escalonado */
+.booking-img-zumba {
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% 40%,
+        72% 40%,
+        72% 60%,
+        100% 60%,
+        100% 100%,
+        0 100%,
+        0 60%,
+        28% 60%,
+        28% 40%,
+        0 40%
+    );
+}
+
+/* Box: octágono */
+.booking-img-box {
+    clip-path: polygon(100% -50%, 100% 100%, -50% 50%);
+}
+
+/* CONTENIDO A LA IZQUIERDA */
+.booking-container .card-body {
+    order: 1;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    min-width: 0;
+    padding: 1.25rem;
+    text-align: left;
 }
 
 .booking-container .card-title {
-    color: #7FDEE2;
-    font-weight: 700;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-texto-principal);
+    font-size: 1.4rem;
+    font-weight: 750;
 }
 
 .booking-container .card-text {
-    color: #DFFBCA;
-    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    color: var(--color-texto-secundario);
+    line-height: 1.5;
 }
 
-.booking-container .card .btn-success {
-    background-color: #74CD59;
-    border-color: #74CD59;
-    color: #08252D;
-    font-weight: 600;
+/* BOTÓN RESERVAR */
+.booking-container .btn-success {
+    padding: 0.65rem 1.3rem;
+    color: var(--color-texto-principal);
+    background-color: var(--color-acento);
+    border: 1px solid var(--color-acento);
+    border-radius: 8px;
+    font-weight: 700;
+    transition:
+        background-color var(--transicion-suave),
+        border-color var(--transicion-suave),
+        transform var(--transicion-suave);
 }
 
-.booking-container .card .btn-success:hover {
-    background-color: #5DBB43;
-    border-color: #5DBB43;
+.booking-container .btn-success:hover {
+    background-color: #C90001;
+    border-color: #C90001;
+    transform: translateY(-2px);
+}
+
+.booking-container .btn-success:focus-visible {
+    outline: 3px solid var(--color-texto-principal);
+    outline-offset: 3px;
+}
+
+/* ========================================
+   MODAL DE RESERVAS
+======================================== */
+
+.modal-backdrop {
+    background-color: #000;
+    opacity: 0.78;
 }
 
 .booking-modal {
-    background-color: #064C58;
-    color: #DFFBCA;
-    border: 1px solid #16717A;
-    border-radius: 14px;
+    color: var(--color-texto-principal);
+    background-color: var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: 16px;
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.55);
+    overflow: hidden;
+}
+
+.booking-modal .modal-header {
+    padding: 1.25rem 1.5rem;
+    background:
+        linear-gradient(
+            120deg,
+            rgba(245, 2, 3, 0.16),
+            transparent 75%
+        ),
+        var(--color-fondo-tarjeta);
+    border-bottom: 1px solid var(--color-borde);
 }
 
 .booking-modal .modal-title {
-    color: #7FDEE2;
-    font-size: 1.4rem;
-    font-weight: 700;
-}
-
-.booking-modal .modal-header,
-.booking-modal .modal-footer {
-    border-color: #16717A;
+    margin: 0;
+    color: var(--color-texto-principal);
+    font-size: 1.35rem;
+    font-weight: 750;
 }
 
 .booking-modal .btn-close {
     filter: invert(1);
+    opacity: 0.8;
 }
 
-.booking-modal .modal-body>p {
-    color: #DFFBCA;
+.booking-modal .btn-close:hover {
+    opacity: 1;
 }
 
-.booking-modal .btn-success {
-    background-color: #74CD59;
-    border-color: #74CD59;
-    color: #08252D;
-    font-weight: 600;
+.booking-modal .modal-body {
+    padding: 1.5rem;
 }
 
-.booking-modal .btn-success:hover {
-    background-color: #5DBB43;
-    border-color: #5DBB43;
+.booking-modal .modal-body > p {
+    margin-bottom: 1.25rem;
+    color: var(--color-texto-secundario);
+}
+
+.booking-modal .form-field {
+    margin-bottom: 1.25rem;
+}
+
+.booking-modal .form-field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--color-texto-principal);
+    font-weight: 650;
+}
+
+.booking-modal .form-select,
+.booking-modal input[type="date"],
+.booking-modal input[type="time"] {
+    width: 100%;
+    min-height: 46px;
+    padding: 0.7rem 0.85rem;
+    color: var(--color-texto-principal);
+    background-color: #121719;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    color-scheme: dark;
+    transition:
+        border-color var(--transicion-suave),
+        box-shadow var(--transicion-suave);
+}
+
+.booking-modal .form-select:focus,
+.booking-modal input[type="date"]:focus,
+.booking-modal input[type="time"]:focus {
+    border-color: var(--color-acento);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(245, 2, 3, 0.2);
+}
+
+.booking-modal .form-select option {
+    color: var(--color-texto-principal);
+    background-color: #121719;
+}
+
+.booking-modal .form-field p {
+    margin-top: 0.65rem;
+    margin-bottom: 0;
+    color: var(--color-texto-secundario);
+    font-size: 0.9rem;
+}
+
+.booking-modal .text-danger {
+    color: #ff7777 !important;
+}
+
+.booking-modal .modal-footer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--color-borde);
+}
+
+.booking-modal .modal-footer .btn {
+    min-height: 42px;
+    padding: 0.65rem 1.1rem;
+    border-radius: 8px;
+    font-weight: 700;
+    transition:
+        background-color var(--transicion-suave),
+        border-color var(--transicion-suave),
+        transform var(--transicion-suave);
 }
 
 .booking-modal .btn-secondary {
-    background-color: #08252D;
-    border-color: #16717A;
+    color: var(--color-texto-principal);
+    background-color: #343a3c;
+    border-color: #4a4f50;
+}
+
+.booking-modal .btn-secondary:hover {
+    background-color: #454c4e;
+    border-color: #606769;
+}
+
+.booking-modal .btn-success {
+    color: #fff;
+    background-color: var(--color-acento);
+    border-color: var(--color-acento);
+}
+
+.booking-modal .btn-success:hover:not(:disabled) {
+    background-color: #c90001;
+    border-color: #c90001;
+    transform: translateY(-2px);
+}
+
+.booking-modal .btn-success:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+/* ========================================
+   MIS RESERVAS
+======================================== */
+
+.mis-reservas {
+    padding: 3rem 1rem;
+    color: var(--color-texto-principal);
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(74, 79, 80, 0.16),
+            transparent 65%
+        ),
+        var(--color-fondo-principal);
+}
+
+.mis-reservas h2 {
+    margin-bottom: 1.5rem;
+    text-align: center;
+    font-size: clamp(1.75rem, 3vw, 2.4rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.mis-reservas > p {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    color: var(--color-texto-secundario);
+    text-align: center;
+    background-color: var(--color-fondo-tarjeta);
+    border: 1px dashed var(--color-borde);
+    border-radius: 12px;
+}
+
+.mis-reservas .card {
+    max-width: 850px;
+    margin-right: auto;
+    margin-left: auto;
+    color: var(--color-texto-principal);
+    background:
+        linear-gradient(
+            120deg,
+            rgba(245, 2, 3, 0.08),
+            transparent 65%
+        ),
+        var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-left: 4px solid var(--color-acento);
+    border-radius: 12px;
+    box-shadow: var(--sombra-tarjeta);
+    transition:
+        transform var(--transicion-suave),
+        border-color var(--transicion-suave),
+        box-shadow var(--transicion-suave);
+}
+
+.mis-reservas .card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-acento);
+    box-shadow: var(--sombra-tarjeta-hover);
+}
+
+.mis-reservas .card-body {
+    padding: 1.5rem;
+}
+
+.mis-reservas .card-title {
+    margin-bottom: 1.25rem;
+    color: var(--color-texto-principal);
+    font-size: 1.25rem;
+    font-weight: 750;
+}
+
+.mis-reservas .card-body p {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 0.65rem;
+    color: var(--color-texto-secundario);
+    line-height: 1.5;
+}
+
+.mis-reservas .card-body p:last-child {
+    margin-bottom: 0;
+}
+
+/* DISEÑO RESPONSIVE */
+@media (max-width: 576px) {
+    .booking-container {
+        padding: 2rem 0.75rem;
+    }
+
+    .booking-container .card {
+        min-height: 160px;
+    }
+
+    .booking-card-img {
+        flex-basis: 35%;
+        width: 35%;
+        min-height: 160px;
+    }
+
+    .booking-container .card-body {
+        padding: 1rem;
+    }
+
+    .booking-container .card-title {
+        font-size: 1.2rem;
+    }
+
+    .booking-container .card-text {
+        font-size: 0.9rem;
+    }
+
+    .booking-container .btn-success {
+        padding: 0.55rem 1rem;
+    }
+        .booking-modal .modal-header {
+        padding: 1rem;
+    }
+
+    .booking-modal .modal-title {
+        font-size: 1.1rem;
+    }
+
+    .booking-modal .modal-body {
+        padding: 1rem;
+    }
+
+    .booking-modal .modal-footer {
+        flex-direction: column-reverse;
+    }
+
+    .booking-modal .modal-footer .btn {
+        width: 100%;
+    }
+        .mis-reservas {
+        padding: 2rem 0.75rem;
+    }
+
+    .mis-reservas .card-body {
+        padding: 1.1rem;
+    }
+
+    .mis-reservas .card-title {
+        font-size: 1.1rem;
+    }
 }

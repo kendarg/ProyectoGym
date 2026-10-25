@@ -1,11 +1,18 @@
+<!-- ================================================
+                        CARDS
+     ================================================ -->
 <section class="booking-container">
     <h1>Reserva tu atención</h1>
     <p>Selecciona el tipo de atención que necesitas</p>
     <div class="container py-4">
         <div class="row g-4">
-
-            <div class="col-12 col-md-6 col-lg-4">
+            <!-- ================================================
+                                        COACH
+                 ================================================ -->
+            <div class="col-12 col-lg-6">
                 <div class="card h-100">
+                    <img src="imgReservas/Coach.webp" alt="Entrenamiento personalizado con coach"
+                        class="booking-card-img booking-img-coach" loading="lazy">
                     <div class="card-body">
                         <h2 class="card-title">Coach</h2>
                         <p class="card-text">Reserva una sesión de entrenamiento personalizado.</p>
@@ -16,9 +23,13 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 col-md-6 col-lg-4">
+            <!-- ================================================
+                                        FISIO
+                 ================================================ -->
+            <div class="col-12 col-lg-6">
                 <div class="card h-100">
+                    <img src="imgReservas/Fisio.webp" alt="Entrenamiento personalizado con coach"
+                        class="booking-card-img booking-img-fisio" loading="lazy">
                     <div class="card-body">
                         <h2 class="card-title">Fisio</h2>
                         <p class="card-text">Agenda una sesión de fisioterapia.</p>
@@ -29,9 +40,13 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 col-md-6 col-lg-4">
+            <!-- ================================================
+                                        SAUNA
+                 ================================================ -->
+            <div class="col-12 col-lg-6">
                 <div class="card h-100">
+                    <img src="imgReservas/Sauna.webp" alt="Entrenamiento personalizado con coach"
+                        class="booking-card-img booking-img-sauna" loading="lazy">
                     <div class="card-body">
                         <h2 class="card-title">Sauna</h2>
                         <p class="card-text">Selecciona un turno para disfrutar del sauna.</p>
@@ -42,9 +57,13 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 col-md-6 col-lg-4">
+            <!-- ================================================
+                                    FIT-DIET
+                 ================================================ -->
+            <div class="col-12 col-lg-6">
                 <div class="card h-100">
+                    <img src="imgReservas/Fit-Diet.webp" alt="Entrenamiento personalizado con coach"
+                        class="booking-card-img booking-img-fit-diet" loading="lazy">
                     <div class="card-body">
                         <h2 class="card-title">Fit-Diet</h2>
                         <p class="card-text">Agenda una asesoría de nutrición.</p>
@@ -55,9 +74,13 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 col-md-6 col-lg-4">
+            <!-- ================================================
+                                        ZUMBA
+                 ================================================ -->
+            <div class="col-12 col-lg-6">
                 <div class="card h-100">
+                    <img src="imgReservas/Zumba.webp" alt="Entrenamiento personalizado con coach"
+                        class="booking-card-img booking-img-zumba" loading="lazy">
                     <div class="card-body">
                         <h2 class="card-title">Zumba</h2>
                         <p class="card-text">Encuentra una clase grupal de Zumba.</p>
@@ -68,9 +91,13 @@
                     </div>
                 </div>
             </div>
-
-            <div class="col-12 col-md-6 col-lg-4">
+            <!-- ================================================
+                                    BOX
+                 ================================================ -->
+            <div class="col-12 col-lg-6">
                 <div class="card h-100">
+                    <img src="imgReservas/Box.webp" alt="Entrenamiento personalizado con coach"
+                        class="booking-card-img booking-img-box" loading="lazy">
                     <div class="card-body">
                         <h2 class="card-title">Box</h2>
                         <p class="card-text">Consulta y reserva una clase de boxeo.</p>
@@ -84,7 +111,9 @@
         </div>
     </div>
 </section>
-
+<!-- ================================================
+                            MODAL
+     ================================================ -->
 @if (modalAbierto && tipoAtencion !== '') {
 <div class="modal fade show d-block" tabindex="-1" role="dialog" aria-modal="true" aria-labelledby="tituloReserva">
     <div class="modal-dialog modal-dialog-centered">
@@ -185,25 +214,26 @@
         </div>
     </div>
 </div>
-
 <div class="modal-backdrop fade show"></div>
 }
-
+<!-- ================================================
+                        MIS RESERVAS
+     ================================================ -->
 <section class="mis-reservas">
     <h2>Mis reservas</h2>
     @if (reservasTemporales.length === 0) {
     <p>Aún no tienes reservas registradas.</p>
     } @else {
-    @for (reserva of reservasTemporales; track $index) {
-        <div class="card mb-3">
-            <div class="card-body">
-                <h3 class="card-title">Reserva de Coach</h3>
-                <p>Entrenador: {{ reserva.entrenadorNombre }}</p>
-                <p>Fecha: {{ reserva.fecha }}</p>
-                <p>Hora: {{ reserva.hora }}</p>
-                <p>Duración: {{ reserva.duracion }} minutos</p>
+        @for (reserva of reservasTemporales; track $index) {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h3 class="card-title">Reserva de Coach</h3>
+                    <p>Entrenador: {{ reserva.entrenadorNombre }}</p>
+                    <p>Fecha: {{ reserva.fecha }}</p>
+                    <p>Hora: {{ reserva.hora }}</p>
+                    <p>Duración: {{ reserva.duracion }} minutos</p>
+                </div>
             </div>
-        </div>
         }
     }
 </section>
