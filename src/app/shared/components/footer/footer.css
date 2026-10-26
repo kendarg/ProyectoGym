@@ -1,7 +1,7 @@
 .site-footer {
   padding: 64px var(--gap) 24px;
   background:
-    radial-gradient(ellipse at 78% 20%, rgba(1, 134, 225, 0.12), transparent 36%),
+    radial-gradient(ellipse at 78% 20%, rgba(225, 1, 1, 0.233), transparent 36%),
     linear-gradient(135deg, #151515, #101114 72%);
   color: var(--white);
 }
@@ -96,11 +96,13 @@
 
 .footer-actions .btn-ghost {
   margin-left: 0;
-  border-color: rgba(255, 255, 255, 0.32);
-  color: var(--white);
+  color: var(--ntext);
 }
 
-.footer-actions .btn-acid:hover,
+.footer-actions .btn-acid:hover{
+  box-shadow: 4px 4px 0 var(--white);
+}
+
 .footer-actions .btn-ghost:hover {
   box-shadow: 4px 4px 0 var(--ntext);
 }

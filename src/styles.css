@@ -7,17 +7,17 @@
 }
 
 :root {
-  --bg: #fafafa;
-  --surface: #f0f0f0;
+  --bg: #0c1113;
+  --surface: #1c2123;
   --text: #111111;
   --text-muted: #666666;
   --text-dim: #999999;
-  --accent: #0186e1;
+  --accent: #f50203;
   --accent-hover: #c2eb00;
-  --border: #e5e5e5;
+  --border: #f10707;
   --border-light: #eeeeee;
   --white: #ffffff;
-  --ntext: #f26109;
+  --ntext: #f50203;
 
   --section-pad: clamp(80px, 10vw, 140px);
   --container: 1200px;
@@ -57,7 +57,7 @@ img {
   gap: 8px;
   padding: 14px 32px;
   border-radius: 8px;
-  color: var(--text);
+  color: var(--white);
   cursor: pointer;
   font-family: inherit;
   font-size: 15px;
@@ -78,24 +78,23 @@ img {
 
 .btn-acid:hover {
   transform: translateY(-2px);
-  box-shadow: 4px 4px 0 var(--text);
+  box-shadow: 4px 4px 0 var(--white);
   color: var(--white);
 }
 
 .btn-acid:active {
   transform: translateY(0);
-  box-shadow: 1px 1px 0 var(--text);
+  box-shadow: 1px 1px 0 var(--white);
 }
 
 .btn-ghost {
   margin-left: 20px;
-  border: 1px solid var(--border);
-  background: transparent;
+  border: 1px solid var(--white);
+  background-color: var(--white);
+  color: var(--ntext);
 }
 
 .btn-ghost:hover {
   transform: translateY(-2px);
-  box-shadow: 4px 4px 0 var(--text);
-  border-color: var(--ntext);
-  color: var(--ntext);
+  box-shadow: 4px 4px 0 var(--ntext);
 }
