@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { FormsModule } from '@angular/forms';
+import Swal from 'sweetalert2';
 import { entrenadores, fisioterapeutas, nutricionistas, sauna, zumba, entrenadoresBox, box } from './booking.data';
 
 interface ReservaTemporal {
@@ -35,6 +36,7 @@ export class Booking {
     fechaReserva = '';
     horaReserva = '';
     horasDisponibles: string[] = [];
+    private readonly claveReservas = 'gym_reservas';
     reservasTemporales: ReservaTemporal[] = [];
     mensajeConfirmacion = '';
     fechaMinima = new Date().toLocaleDateString('en-CA');
@@ -52,6 +54,7 @@ export class Booking {
             ) {
                 this.mensajeConfirmacion =
                     'Verifica el entrenador, la fecha y la disponibilidad del horario.';
+                this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                 return false;
             }
 
@@ -63,12 +66,12 @@ export class Booking {
                 hora: this.horaReserva,
                 duracion: entrenador.duracionSesion
             });
-
+            this.guardarReservas();
             this.mensajeConfirmacion =
                 `Reserva preparada correctamente para Coach. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Entrenador: ${entrenador.nombre}`;
-
+            this.mostrarAlerta(this.mensajeConfirmacion, 'success');
             return true;
         }
 
@@ -78,6 +81,7 @@ export class Booking {
             if (!fisioterapeuta) {
                 this.mensajeConfirmacion =
                     'No hay fisioterapeutas disponibles para esa fecha y hora. Selecciona otro horario.';
+                this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                 return false;
             }
 
@@ -89,12 +93,12 @@ export class Booking {
                 hora: this.horaReserva,
                 duracion: fisioterapeuta.duracionSesion
             });
-
+            this.guardarReservas();
             this.mensajeConfirmacion =
                 `Reserva preparada correctamente para Fisio. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Fisioterapeuta asignado: ${fisioterapeuta.nombre}`;
-
+            this.mostrarAlerta(this.mensajeConfirmacion, 'success');
             return true;
         }
 
@@ -110,6 +114,7 @@ export class Booking {
             ) {
                 this.mensajeConfirmacion =
                     'Verifica el nutricionista, la fecha y la disponibilidad del horario.';
+                this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                 return false;
             }
 
@@ -121,12 +126,12 @@ export class Booking {
                 hora: this.horaReserva,
                 duracion: nutricionista.duracionSesion
             });
-
+            this.guardarReservas();
             this.mensajeConfirmacion =
                 `Reserva preparada correctamente para Fit-Diet. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Nutricionista: ${nutricionista.nombre}`;
-
+            this.mostrarAlerta(this.mensajeConfirmacion, 'success');
             return true;
         }
         if (this.tipoAtencion === 'sauna') {
@@ -139,6 +144,7 @@ export class Booking {
             ) {
                 this.mensajeConfirmacion =
                     'Verifica la fecha, el turno y los cupos disponibles para Sauna.';
+                this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                 return false;
             }
 
@@ -150,12 +156,12 @@ export class Booking {
                 hora: this.horaReserva,
                 duracion: this.sauna.duracionTurno
             });
-
+            this.guardarReservas();
             this.mensajeConfirmacion =
                 `Reserva preparada correctamente para Sauna. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Cupos restantes: ${this.cuposDisponiblesSauna(this.horaReserva)}`;
-
+            this.mostrarAlerta(this.mensajeConfirmacion, 'success');
             return true;
         }
 
@@ -169,6 +175,7 @@ export class Booking {
             ) {
                 this.mensajeConfirmacion =
                     'Verifica la fecha, la clase y los cupos disponibles para Zumba.';
+                this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                 return false;
             }
 
@@ -180,12 +187,12 @@ export class Booking {
                 hora: this.horaReserva,
                 duracion: this.zumba.duracionClase
             });
-
+            this.guardarReservas();
             this.mensajeConfirmacion =
                 `Reserva preparada correctamente para Zumba. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Cupos restantes: ${this.cuposDisponiblesZumba(this.horaReserva)}`;
-
+            this.mostrarAlerta(this.mensajeConfirmacion, 'success');
             return true;
         }
 
@@ -198,6 +205,7 @@ export class Booking {
             ) {
                 this.mensajeConfirmacion =
                     'Verifica la fecha, la modalidad y el horario disponible para Box.';
+                this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                 return false;
             }
 
@@ -212,10 +220,10 @@ export class Booking {
                 if (this.cuposDisponiblesBox(this.horaReserva) <= 0) {
                     this.mensajeConfirmacion =
                         'La clase grupal ya alcanzó su capacidad máxima.';
+                        this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                     return false;
                 }
 
-                // Los participantes de una misma clase comparten entrenador.
                 const claseExistente = reservasHorario.find(
                     reserva => reserva.modalidadBox === 'grupal'
                 );
@@ -229,6 +237,7 @@ export class Booking {
                 if (!entrenador) {
                     this.mensajeConfirmacion =
                         'No hay entrenadores disponibles para esa clase.';
+                        this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                     return false;
                 }
 
@@ -241,13 +250,13 @@ export class Booking {
                     hora: this.horaReserva,
                     duracion: this.box.duracionSesion
                 });
-
+                this.guardarReservas();
                 this.mensajeConfirmacion =
                     `Reserva grupal de Box preparada correctamente. ` +
                     `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                     `Entrenador: ${entrenador.nombre}. ` +
                     `Cupos restantes: ${this.cuposDisponiblesBox(this.horaReserva)}`;
-
+                this.mostrarAlerta(this.mensajeConfirmacion, 'success');
                 return true;
             }
 
@@ -264,6 +273,7 @@ export class Booking {
             ) {
                 this.mensajeConfirmacion =
                     'El entrenador seleccionado no está disponible en ese horario.';
+                this.mostrarAlerta(this.mensajeConfirmacion, 'error');
                 return false;
             }
 
@@ -276,18 +286,18 @@ export class Booking {
                 hora: this.horaReserva,
                 duracion: this.box.duracionSesion
             });
-
+            this.guardarReservas();
             this.mensajeConfirmacion =
                 `Reserva individual de Box preparada correctamente. ` +
                 `Fecha: ${this.fechaReserva}. Hora: ${this.horaReserva}. ` +
                 `Entrenador: ${entrenador.nombre}`;
-
+            this.mostrarAlerta(this.mensajeConfirmacion, 'success');
             return true;
         }
 
         this.mensajeConfirmacion =
             'Este tipo de atención todavía no tiene habilitada la confirmación de reservas.';
-
+        this.mostrarAlerta(this.mensajeConfirmacion, 'error');
         return false;
     }
 
@@ -659,9 +669,7 @@ export class Booking {
             return [];
         }
 
-        const horario = this.modalidadBox === 'grupal'
-            ? this.box.horarioGrupal
-            : this.box.horarioIndividual;
+        const horario = this.modalidadBox === 'grupal' ? this.box.horarioGrupal : this.box.horarioIndividual;
 
         const [inicioH, inicioM] = horario.inicio.split(':').map(Number);
         const [finH, finM] = horario.fin.split(':').map(Number);
@@ -695,7 +703,6 @@ export class Booking {
                 }
             }
         }
-
         return horas;
     }
 
@@ -759,7 +766,6 @@ export class Booking {
                 return false;
             }
 
-            // Solo se permite compartir entrenador dentro de la misma clase grupal.
             if (
                 reserva.modalidadBox === 'grupal' &&
                 this.modalidadBox === 'grupal' &&
@@ -811,5 +817,54 @@ export class Booking {
     limpiarSeleccionFecha() {
         this.horaReserva = '';
         this.limpiarConfirmacion();
+    }
+
+    private mostrarAlerta(
+        mensaje: string,
+        tipo: 'success' | 'error'
+    ): void {
+        void Swal.fire({
+            title: tipo === 'success' ? '¡Reserva creada exitosamente!' : 'No se pudo crear la reserva',
+            text: mensaje,
+            icon: tipo,
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: tipo === 'success' ? '#3085d6' : '#d33'
+        });
+    }
+
+    constructor() {
+        this.cargarReservas();
+    }
+
+    private cargarReservas(): void {
+        if (typeof localStorage === 'undefined') {
+            return;
+        }
+
+        try {
+            const reservasGuardadas = localStorage.getItem(this.claveReservas);
+
+            if (reservasGuardadas) {
+                this.reservasTemporales = JSON.parse(reservasGuardadas) as ReservaTemporal[];
+            }
+        } catch (error) {
+            console.error('Error al cargar las reservas guardadas:', error);
+            this.reservasTemporales = [];
+        }
+    }
+
+    private guardarReservas(): void {
+        if (typeof localStorage === 'undefined') {
+            return;
+        }
+
+        try {
+            localStorage.setItem(
+                this.claveReservas,
+                JSON.stringify(this.reservasTemporales)
+            );
+        } catch (error) {
+            console.error('Error al guardar las reservas:', error);
+        }
     }
 }
