@@ -30,7 +30,7 @@
   position: absolute;
   z-index: 1;
   inset: 0;
-  background: linear-gradient(90deg, #0c1113 0%, rgba(241, 3, 3, 0.801) 38%, rgba(241, 3, 3, 0.308) 70%, #0c11132e 100%);
+  background: linear-gradient(90deg, #0c1113 0%, rgba(241, 3, 3, 0.607) 38%, rgba(241, 3, 3, 0.308) 70%, #0c11132e 100%);
   content: '';
   
 }

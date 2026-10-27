@@ -6,6 +6,7 @@
 .nav-logo-text {
   display: inline-block;
   line-height: 1;
+  color: var(--white);
 }
 
 .nav-logo-text strong {

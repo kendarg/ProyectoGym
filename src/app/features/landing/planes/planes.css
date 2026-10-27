@@ -1,8 +1,9 @@
 .pricing {
   --button-accent: var(--ntext);
   padding: clamp(48px, 6vw, 80px) 0;
-    background: linear-gradient(90deg, #0c1113 0%, #f5020265 38%, rgba(241, 3, 3, 0.308) 70%, #0c11132e 100%);
-
+     background:
+    radial-gradient(ellipse at 80% 10%, rgba(225, 1, 1, 0.233), transparent 70%),
+    linear-gradient(135deg, #0c1113, #0c1113);
 }
 
 .container {
