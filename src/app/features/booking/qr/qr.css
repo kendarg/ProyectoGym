@@ -1,0 +1,14 @@
+:host {
+    --color-fondo-principal: #0C1113;
+    --color-fondo-tarjeta: #1C2123;
+    --color-acento: #F50203;
+
+    --color-texto-principal: #F7F7F7;
+    --color-texto-secundario: #D4D6D3;
+
+    --color-borde: #4A4F50;
+
+    --sombra-tarjeta: 0 8px 24px rgba(0, 0, 0, 0.28);
+    --sombra-tarjeta-hover: 0 14px 32px rgba(0, 0, 0, 0.42);
+    --transicion-suave: 0.25s ease;
+}
