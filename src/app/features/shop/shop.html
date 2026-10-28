@@ -1,17 +1,85 @@
-<section class="container py-4">
-    <h1 class="mb-4">Nuestros Productos</h1>
+<section class="shop-container container-fluid py-4">
+    <h1 class="shop-title mb-4">Nuestros Productos</h1>
+    <button type="button" class="shop-cart-button" aria-label="Abrir carrito" (click)="abrirCarrito()">
+        <i class="bi bi-cart3"></i><span class="shop-cart-count">{{ contarUnidades() }}</span>
+    </button>
     <div class="row g-4">
         @for (producto of productos; track producto.id) {
-            <div class="col-12 col-sm-6 col-lg-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <img class="img-fluid" [src]="producto.imagen" [alt]="producto.nombre">
-                        <h5 class="card-title"> {{ producto.nombre }}</h5>
-                        <p class="card-text"> {{ producto.precio }}</p>
-                        <button type="button" class="btn btn-primary">Agregar al carrito</button>
-                    </div>
+        <div class="col-12 col-sm-6 col-lg-4">
+            <div class="card shop-product-card h-100">
+                <div class="card-body shop-product-body">
+                    <img class="shop-product-img" [src]="producto.imagen" [alt]="producto.nombre">
+                    <h5 class="card-title shop-product-title"> {{producto.nombre}}</h5>
+                    <p class="card-text shop-product-price"> {{producto.precio | currency:'COP':'symbol':'1.0-0'}}</p>
+                    <button type="button" class="btn shop-add-button" (click)="agregarAlCarrito(producto)">
+                        Agregar al carrito
+                    </button>
                 </div>
             </div>
+        </div>
         }
     </div>
 </section>
+<!-- =============================================
+                        MODAL
+     ============================================= -->
+@if (carritoAbierto) {
+<div class="modal d-block shop-modal-backdrop" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content shop-modal">
+            <div class="modal-header shop-modal-header">
+                <h5 class="modal-title shop-modal-title">
+                    <i class="bi bi-cart3"></i> Carrito de compras
+                </h5>
+                <button type="button" class="btn-close" aria-label="Cerrar" (click)="carritoAbierto = false">
+                </button>
+            </div>
+
+            <div class="modal-body shop-modal-body">
+                @for (item of carrito; track item.id) {
+                <div class="shop-cart-item">
+                        <img class="shop-cart-item-img" [src]="item.imagen" [alt]="item.nombre">
+                    <div class="shop-cart-item-info">
+                        <p class="shop-cart-item-name">
+                            {{ item.nombre }} × {{ item.cantidad }}
+                        </p>
+                        <span class="shop-cart-item-price">
+                            {{ (item.precio * (item.cantidad ?? 1)) | currency:'COP':'symbol':'1.0-0' }}
+                        </span>
+                    </div>
+                    <div class="shop-cart-item-actions">
+                        <button type="button" class="btn shop-quantity-button" aria-label="Agregar una unidad"
+                            (click)="agregarAlCarrito(item)">
+                            <i class="bi bi-plus-circle"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-danger" aria-label="Disminuir una unidad"
+                            (click)="disminuirCantidad(item.id)">
+                            <i class="bi bi-dash-circle"></i>
+                        </button>
+                    </div>
+                </div>
+                } @empty {
+                <p class="shop-cart-empty">
+                    <i class="bi bi-cart-x"></i>Tu carrito está vacío.
+                </p>
+                }
+                <div class="shop-cart-total">
+                    <span>Total de la compra</span>
+                    <strong>
+                        {{ calcularTotal() | currency:'COP':'symbol':'1.0-0' }}
+                    </strong>
+                </div>
+            </div>
+            <div class="modal-footer shop-modal-footer">
+                <button type="button" class="btn shop-continue-button" (click)="carritoAbierto = false">
+                    Seguir comprando
+                </button>
+                <button type="button" class="btn shop-clear-button" [disabled]="carrito.length === 0" 
+                (click)="vaciarCarrito()">
+                    <i class="bi bi-trash"></i> Vaciar carrito
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+}

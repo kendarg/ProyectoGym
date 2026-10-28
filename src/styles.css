@@ -1,5 +1,6 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
-/*componente de bootstrap usado en las cards de reservas, QR y Tienda*/
+@import "bootstrap-icons/font/bootstrap-icons.css";
+/*componentes de bootstrap usado en las cards de reservas, QR y Tienda*/
 
 *,
 *::before,
