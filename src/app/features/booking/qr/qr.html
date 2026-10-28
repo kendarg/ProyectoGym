@@ -1,6 +1,6 @@
 
-<div class="container py-4">
-    <h1 class="mb-4">Códigos QR de máquinas</h1>
+<div class="qr-container py-4">
+    <h1 class="mb-4">Tutoriales sobre ejercicios</h1>
     <div class="row g-4">
         @for (m of maquinas; track m.id) {
             <div class="col-12 col-md-6 col-lg-4">
@@ -8,14 +8,10 @@
                     @if (m.qr) {
                         <img [src]="m.qr" [alt]="'QR ' + m.nombre" class="card-img-top p-3">
                     }
-
                     <div class="card-body">
                         <h2 class="card-title h5">
                             {{ m.nombre }}
                         </h2>
-                        <p class="card-text small text-muted">
-                            {{ m.url }}
-                        </p>
                     </div>
                 </div>
             </div>

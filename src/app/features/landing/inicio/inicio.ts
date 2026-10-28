@@ -1,7 +1,6 @@
 import { Component, OnDestroy, signal } from '@angular/core';
 import { Planes } from '../planes/planes';
 import { Sedes } from '../sedes/sedes';
-import { Qr } from '../../booking/qr/qr';
 
 interface HeroSlide {
   image: string;
@@ -14,7 +13,7 @@ interface HeroSlide {
 }
 
 @Component({
-  imports: [Planes, Sedes, Qr],
+  imports: [Planes, Sedes],
   selector: 'app-inicio',
   styleUrl: './inicio.css',
   templateUrl: './inicio.html',

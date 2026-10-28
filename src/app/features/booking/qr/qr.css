@@ -1,3 +1,4 @@
+
 :host {
     --color-fondo-principal: #0C1113;
     --color-fondo-tarjeta: #1C2123;
@@ -5,10 +6,136 @@
 
     --color-texto-principal: #F7F7F7;
     --color-texto-secundario: #D4D6D3;
-
     --color-borde: #4A4F50;
 
     --sombra-tarjeta: 0 8px 24px rgba(0, 0, 0, 0.28);
     --sombra-tarjeta-hover: 0 14px 32px rgba(0, 0, 0, 0.42);
     --transicion-suave: 0.25s ease;
+}
+
+/* CONTENEDOR PRINCIPAL */
+.qr-container {
+    min-height: 100vh;
+    padding: 3rem 1rem;
+    color: var(--color-texto-principal);
+    background:
+        radial-gradient(
+            ellipse at top,
+            rgba(74, 79, 80, 0.22),
+            transparent 65%
+        ),
+        var(--color-fondo-principal);
+}
+
+/* TÍTULO */
+.qr-container h1 {
+    margin-bottom: 2rem;
+    text-align: center;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+/* TARJETAS DE MÁQUINAS */
+.qr-container .card {
+    height: 100%;
+    overflow: hidden;
+    color: var(--color-texto-principal);
+    background:
+        linear-gradient(
+            145deg,
+            rgba(74, 79, 80, 0.16),
+            transparent 55%
+        ),
+        var(--color-fondo-tarjeta);
+    border: 1px solid var(--color-borde);
+    border-radius: 16px;
+    box-shadow: var(--sombra-tarjeta);
+
+    transition:
+        transform var(--transicion-suave),
+        box-shadow var(--transicion-suave),
+        border-color var(--transicion-suave);
+}
+
+.qr-container .card:hover {
+    transform: translateY(-5px);
+    border-color: var(--color-acento);
+    box-shadow: var(--sombra-tarjeta-hover);
+}
+
+/* IMAGEN QR */
+.qr-container .card-img-top {
+    display: block;
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin: 0 auto;
+    object-fit: contain;
+    background-color: #FFFFFF;
+    border: 0;
+    border-radius: 12px;
+}
+
+/* CONTENIDO DE LA TARJETA */
+.qr-container .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.25rem;
+    text-align: center;
+    border-top: 1px solid var(--color-borde);
+}
+
+/* NOMBRE DE LA MÁQUINA */
+.qr-container .card-title {
+    margin-bottom: 0.75rem;
+    color: var(--color-texto-principal);
+    font-size: 1.2rem;
+    font-weight: 750;
+    line-height: 1.4;
+}
+
+/* URL DEL TUTORIAL */
+.qr-container .card-text {
+    width: 100%;
+    margin-bottom: 0;
+    color: var(--color-texto-secundario) !important;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+/* DISEÑO RESPONSIVE */
+@media (max-width: 576px) {
+    .qr-container {
+        padding: 2rem 0.75rem;
+    }
+
+    .qr-container h1 {
+        margin-bottom: 1.5rem;
+    }
+
+    .qr-container .card-img-top {
+        max-width: 240px;
+    }
+
+    .qr-container .card-body {
+        padding: 1rem;
+    }
+
+    .qr-container .card-title {
+        font-size: 1.1rem;
+    }
+}
+
+/* ACCESIBILIDAD */
+@media (prefers-reduced-motion: reduce) {
+    .qr-container .card {
+        transition: none;
+    }
+
+    .qr-container .card:hover {
+        transform: none;
+    }
 }

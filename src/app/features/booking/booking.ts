@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { entrenadores, fisioterapeutas, nutricionistas, sauna, zumba, entrenadoresBox, box } from './booking.data';
+import { Qr } from "./qr/qr";
 
 interface ReservaTemporal {
     tipoAtencion: 'coach' | 'fisio' | 'fit-diet' | 'sauna' | 'zumba' | 'box';
@@ -15,7 +16,7 @@ interface ReservaTemporal {
 
 @Component({
     selector: 'app-booking',
-    imports: [FormsModule],
+    imports: [FormsModule, Qr],
     templateUrl: './booking.html',
     styleUrl: './booking.css',
 })
