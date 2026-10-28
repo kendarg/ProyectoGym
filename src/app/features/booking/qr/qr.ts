@@ -10,11 +10,11 @@ import { tutoriales, type Tutoriales } from './qr.data';
     styleUrl: './qr.css',
 })
 export class Qr implements OnInit {
-    maquinas: Tutoriales[] = tutoriales;
+    tutoriales: Tutoriales[] = tutoriales;
 
     async ngOnInit() {
-        for (const m of this.maquinas) {
-            m.qr = await this.generarQR(m.url);
+        for (const tutorial of this.tutoriales) {
+            tutorial.qr = await this.generarQR(tutorial.url);
         }
     }
 

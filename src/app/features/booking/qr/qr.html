@@ -1,15 +1,15 @@
 <div class="qr-container py-4">
     <h1 class="mb-4">Tutoriales sobre ejercicios</h1>
     <div class="row g-4">
-        @for (m of maquinas; track m.id) {
+        @for (tutorial of tutoriales; track tutorial.id) {
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card h-100 text-center">
-                    @if (m.qr) {
-                        <img [src]="m.qr" [alt]="'QR ' + m.nombre" class="card-img-top p-3">
+                    @if (tutorial.qr) {
+                        <img [src]="tutorial.qr" [alt]="'QR ' + tutorial.nombre" class="card-img-top p-3">
                     }
                     <div class="card-body">
                         <h2 class="card-title h5">
-                            {{ m.nombre }}
+                            {{ tutorial.nombre }}
                         </h2>
                     </div>
                 </div>
