@@ -12,5 +12,5 @@ export const productos = [
     {id: 3, nombre: 'Pre-entreno', precio: 110000, imagen:'imgProductos/Pre-entreno.webp'},
     {id: 4, nombre: 'Barra de Proteína', precio: 12000, imagen: 'imgProductos/Barra-de-proteina.webp'},
     {id: 5, nombre: 'Termo Mezclador', precio: 25000, imagen: 'imgProductos/Termo-mezclador.webp'},
-    {id: 6, nombre: 'Straps', precio: 45000, imagen: 'imgProductos/Straps.webp'}
+    {id: 6, nombre: 'Correas de levantamiento', precio: 45000, imagen: 'imgProductos/Straps.webp'}
 ];
