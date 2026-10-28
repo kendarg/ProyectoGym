@@ -1,0 +1,17 @@
+<section class="container py-4">
+    <h1 class="mb-4">Nuestros Productos</h1>
+    <div class="row g-4">
+        @for (producto of productos; track producto.id) {
+            <div class="col-12 col-sm-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <img class="img-fluid" [src]="producto.imagen" [alt]="producto.nombre">
+                        <h5 class="card-title"> {{ producto.nombre }}</h5>
+                        <p class="card-text"> {{ producto.precio }}</p>
+                        <button type="button" class="btn btn-primary">Agregar al carrito</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
