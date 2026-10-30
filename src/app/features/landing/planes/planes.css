@@ -1,6 +1,6 @@
 .pricing {
   --button-accent: var(--ntext);
-  padding: clamp(48px, 6vw, 80px) 0;
+  padding: clamp(32px, 4vw, 56px) 0;
      background:
     radial-gradient(ellipse at 80% 10%, rgba(225, 1, 1, 0.233), transparent 70%),
     linear-gradient(135deg, #0c1113, #0c1113);
@@ -13,7 +13,7 @@
 }
 
 .section-header {
-  margin-bottom: 36px;
+  margin-bottom: 24px;
   text-align: center;
 }
 
@@ -43,7 +43,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 28px;
   
 }
 
@@ -101,7 +101,7 @@
 
 .pricing-card {
   position: relative;
-  padding: 32px 28px;
+  padding: 24px 22px;
   border: 1px solid var(--white);
   border-radius: 16px;
   background: var(--surface);
@@ -120,7 +120,7 @@
   transform: translateX(-50%);
   border-radius: 100px;
   background: var(--button-accent);
-  color: var(--white);
+  color: #000;
   content: 'El mas popular !';
   font-size: 12px;
   font-weight: 700;
@@ -136,7 +136,7 @@
 }
 
 .pricing-plan-desc {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   color: var(--text-muted);
   font-size: 14px;
 }
@@ -155,7 +155,7 @@
 }
 
 .pricing-value {
-  font-size: 56px;
+  font-size: 48px;
   font-weight: 900;
   letter-spacing: -0.05em;
   line-height: 1;
@@ -170,7 +170,7 @@
 
 .pricing-billed {
   min-height: 24px;
-  margin-bottom: 28px;
+  margin-bottom: 18px;
   color: var(--text-dim);
   font-size: 13px;
 }
@@ -178,10 +178,10 @@
 .pricing .pricing-action {
   display: flex;
   width: 100%;
-  min-height: 52px;
+  min-height: 46px;
   align-items: center;
   justify-content: center;
-  margin: 0 0 28px;
+  margin: 0 0 20px;
   padding: 10px 22px;
   font-size: 14px;
   text-align: center;
@@ -191,11 +191,14 @@
   background: var(--button-accent);
 }
 
+.pricing-card:not(.featured) .pricing-action.btn-ghost {
+  color: #000;
+}
 
 .pricing-features {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   list-style: none;
 }
 
@@ -204,7 +207,7 @@
   align-items: center;
   gap: 10px;
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
 }
 
@@ -225,7 +228,7 @@
 
 @media (max-width: 480px) {
   .pricing-card {
-    padding: 28px 22px;
+    padding: 24px 22px;
   }
 
   .pricing-value {

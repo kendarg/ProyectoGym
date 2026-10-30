@@ -40,7 +40,11 @@
   object-fit: contain;
 }
 
-.footer-logo strong {
+.footer-logo-text {
+  color: var(--white);
+}
+
+.footer-logo-text span {
   color: var(--ntext);
 }
 
@@ -174,16 +178,17 @@
   align-self: center;
   justify-self: end;
   color: var(--white);
+  font-family: 'Segoe Print', 'Bradley Hand', 'Comic Sans MS', cursive;
   font-size: clamp(20px, 2.4vw, 28px);
   font-style: italic;
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.25;
   text-align: right;
 }
 
 .footer-motto span {
   display: block;
-  width: 64px;
+  width: 84px;
   height: 3px;
   margin: 12px 0 0 auto;
   background: var(--accent);

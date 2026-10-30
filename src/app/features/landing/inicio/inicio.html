@@ -1,5 +1,5 @@
 <main>
-  <section class="hero-carousel" id="Inicio" aria-roledescription="carrusel" aria-label="Promociones de Ultra Fitness">
+  <section class="hero-carousel" id="Inicio" aria-roledescription="carrusel" aria-label="Promociones de Nexus Gym">
     @for (slide of slides; track slide.image; let index = $index) {
       @if (currentSlide() === index) {
         <article class="hero-slide">
@@ -8,8 +8,19 @@
             <p class="hero-eyebrow">{{ slide.eyebrow }}</p>
             <h1>{{ slide.title }}</h1>
             <p class="hero-description">{{ slide.description }}</p>
-            <a class="hero-cta" [href]="slide.href">{{ slide.cta }} <span aria-hidden="true">→</span></a>
+            <a class="hero-cta btn-acid" [href]="slide.href">{{ slide.cta }} <span aria-hidden="true">→</span></a>
           </div>
+          <p class="hero-mantra" aria-label="La disciplina es un arte">
+            <span>La disciplina<br>es un arte</span>
+          </p>
+          <ul class="hero-features" aria-label="Lo que encontrarás en Nexus Gym">
+            @for (feature of features; track feature.label) {
+              <li>
+                <i class="bi {{ feature.icon }}" aria-hidden="true"></i>
+                <span>{{ feature.label }}</span>
+              </li>
+            }
+          </ul>
         </article>
       }
     }

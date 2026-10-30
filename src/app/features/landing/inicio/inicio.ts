@@ -10,16 +10,28 @@ interface HeroSlide {
   href: string;
 }
 
+interface GymFeature {
+  icon: string;
+  label: string;
+}
+
 @Component({
   selector: 'app-inicio',
   styleUrl: './inicio.css',
   templateUrl: './inicio.html',
 })
 export class Inicio implements OnDestroy {
+  protected readonly features: GymFeature[] = [
+    { icon: 'bi-activity', label: 'Equipamiento clase mundial' },
+    { icon: 'bi-people', label: 'Entrenadores expertos' },
+    { icon: 'bi-heart', label: 'Comunidad solidaria' },
+    { icon: 'bi-star', label: 'Instalaciones modernas' },
+  ];
+
   protected readonly slides: HeroSlide[] = [
     {
       image: '/imgGymCarrusel/009.jpg',
-      alt: 'Zona de entrenamiento equipada de Ultra Fitness',
+      alt: 'Zona de entrenamiento equipada de Nexus Gym',
       eyebrow: 'Tu mejor versión empieza hoy',
       title: 'Transforma tu cuerpo. Fortalece tu vida.',
       description: 'Un paso a la vez, un entrenamiento a la vez. Tu cambio comienza aquí.',
@@ -28,7 +40,7 @@ export class Inicio implements OnDestroy {
     },
     {
       image: '/imgGymCarrusel/006.jpg',
-      alt: 'Socios de Ultra Fitness entrenando con pesas',
+      alt: 'Socios de Nexus Gym entrenando con pesas',
       eyebrow: 'Entrena con propósito',
       title: 'Cada repetición te acerca a tu meta.',
       description: 'Encuentra tu fuerza, supera tus límites y celebra todo lo que eres capaz de lograr.',
