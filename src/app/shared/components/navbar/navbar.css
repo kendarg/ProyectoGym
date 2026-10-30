@@ -20,11 +20,12 @@
 }
 
 .nav {
-  background-color: #080c0d;
+  background-color: var(--bg);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
+  height: var(--navbar-height);
   z-index: 1000;
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -138,12 +139,12 @@
 
 @media (max-width: 900px) {
   .nav-inner {
-    height: auto;
-    min-height: 64px;
+    height: 100%;
     grid-template-columns: 1fr auto;
-    row-gap: 10px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    grid-template-rows: 1fr auto;
+    row-gap: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 
   .nav-links {

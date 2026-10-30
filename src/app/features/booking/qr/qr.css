@@ -17,13 +17,7 @@
     min-height: 100vh;
     padding: 3rem 1rem;
     color: var(--color-texto-principal);
-    background:
-        radial-gradient(
-            ellipse at top,
-            rgba(74, 79, 80, 0.22),
-            transparent 65%
-        ),
-        var(--color-fondo-principal);
+    background: var(--bg);
 }
 
 .qr-container h1 {

@@ -1,8 +1,6 @@
 .spaces {
   padding: clamp(48px, 6vw, 80px) 0;
-    background:
-    radial-gradient(ellipse at 20% 10%, rgba(225, 1, 1, 0.233), transparent 70%),
-    linear-gradient(135deg, #0c1113, #0c1113);
+  background: var(--bg);
 }
 
 .container {

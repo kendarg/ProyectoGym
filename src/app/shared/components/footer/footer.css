@@ -1,8 +1,6 @@
 .site-footer {
   padding: 64px var(--gap) 24px;
-  background:
-    radial-gradient(ellipse at 80% 10%, rgba(225, 1, 1, 0.233), transparent 70%),
-    linear-gradient(135deg, #0c1113, #0c1113);
+  background: var(--bg);
   color: var(--white);
 }
 
@@ -188,11 +186,11 @@
 
 .footer-motto span {
   display: block;
-  width: 84px;
-  height: 3px;
+  width: 264px;
+  height: 2px;
   margin: 12px 0 0 auto;
   background: var(--accent);
-  transform: rotate(-8deg);
+  transform: rotate(-4deg);
 }
 
 .footer-bottom {

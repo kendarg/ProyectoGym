@@ -26,6 +26,13 @@
   --section-pad: clamp(80px, 10vw, 140px);
   --container: 1200px;
   --gap: 24px;
+  --navbar-height: 64px;
+}
+
+@media (max-width: 900px) {
+  :root {
+    --navbar-height: 92px;
+  }
 }
 
 html {
